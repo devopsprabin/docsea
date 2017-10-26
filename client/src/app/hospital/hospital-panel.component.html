@@ -1,0 +1,157 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 animated fadeIn">
+      <div class="well custom-padding">
+      <h1 class="pull-left no-margin-top">Doctors</h1>
+        <span class="pull-right">
+          <form class="clearfix">
+            <button type="button" class="btn btn-primary add-blood" data-toggle="modal" data-target="#myEventModal">
+              Add Event
+            </button>
+        <!--</span>-->
+        <!--<span class="pull-right">-->
+            <button class="btn btn-success" routerLink="/register-doctor">Add Doctor</button>
+          </form>
+        </span>
+      </div>
+    </div>
+  </div> <!-- /.row -->
+
+  <div class="row">
+    <div class="col-md-12  animated fadeIn">
+      <table class="table table-bordered table-striped table-hover" id="hospital-panel-table">
+        <thead>
+        <tr >
+          <th class="text-center">NMC No.</th>
+          <th class="text-center">Photo</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Speciality</th>
+          <th class="text-center">Contact</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <ng-container *ngFor="let doclist of doctorList">
+          <tr>
+            <td class="text-capitalize">{{ doclist.doctor.nmcNumber }}</td>
+            <td class="no-padding text-center"><img src="./assets/images/{{doclist.doctor.photo}}" class="img-circle custom-circle" alt="doctor's image" width="75" height="75"></td>
+            <td class="text-capitalize">{{ doclist.doctor.name }}</td>
+            <td class="text-capitalize">{{doclist.doctor.speciality.name}}</td>
+            <td class="text-capitalize">{{doclist.doctor.contact.contactNumber1}}</td>
+            <td class="text-center text-capitalize">
+
+             <ng-container *ngIf="doclist.status.status === 'ACTIVE'; else inactive">
+                <button class="btn btn-sm btn-success custom-button" (click)="toggleStatus(doclist.doctor.id)">{{doclist.status.status}}</button>
+              </ng-container>
+
+              <ng-template #inactive>
+                <button class="btn btn-sm btn-danger" (click)="toggleStatus(doclist.doctor.id)">{{doclist.status.status }}</button>
+              </ng-template>
+
+
+              <!--<a href="" class="btn btn-sm btn-success">Active</a>-->
+            </td>
+            <td class="text-center text-capitalize">
+              <button [routerLink]="['/profile',doclist.doctor.id]" class="btn btn-sm btn-primary">Details</button>
+            </td>
+          </tr>
+        </ng-container>
+
+        </tbody>
+        <tfoot>
+        <tr >
+          <th class="text-center">NMC No</th>
+          <th class="text-center">Photo</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Speciality</th>
+          <th class="text-center">Contact</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Action</th>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div> <!-- /.row -->
+</div> <!-- /.container -->
+
+
+
+<!-- Eventsvent Modal -->
+<div class="modal fade" id="myEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Event</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" #addEvent="ngForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">Event Title: </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="name" id="name" placeholder="Event Title..."
+                     [(ngModel)]="event.name" #name="ngModel" required>
+              <div *ngIf="name.errors && name.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!name.errors.required">Event Name is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dates" class="col-sm-3 control-label">Date: </label>
+            <div class="col-sm-9">
+              <input type="date" class="form-control" name="dates" id="dates" placeholder="Event Date..."
+                     [(ngModel)]="event.dates" #dates="ngModel" required>
+              <div *ngIf="dates.errors && dates.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!dates.errors.required">Date is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="time" class="col-sm-3 control-label">Time: </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="time" id="time" placeholder="From ... To ..."
+                     [(ngModel)]="event.time" #time="ngModel" required>
+              <div *ngIf="time.errors && time.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!time.errors.required">Time is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="location" class="col-sm-3 control-label">Location: </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="location" id="location" placeholder="Event Location..."
+                     [(ngModel)]="event.location" #location="ngModel" required>
+              <div *ngIf="location.errors && location.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!location.errors.required">Location is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="col-sm-3 control-label">Description: </label>
+            <div class="col-sm-9">
+              <textarea class="form-control" name="description"
+                        name="description" id="description" placeholder="Description..."
+                        cols="30" rows="5"
+                        [(ngModel)]="event.description" #description="ngModel" required>
+              </textarea>
+              <div *ngIf="description.errors && description.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!description.errors.required">Description is required</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success"
+                    [disabled]="!addEvent.valid">Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

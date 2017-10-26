@@ -1,0 +1,110 @@
+/* Event Modal*/
+#myEventModal{
+  margin-top: 5%;
+}
+
+/* Blood */
+.blood hr{
+  margin-left: 0;
+  margin-right: 0;
+  width: 768px;
+}
+/* LEFT*/
+.blood .left{
+  width: 75%;
+  padding-right: 15px;
+  float: left;
+}
+
+.blood .left .col-md-3{
+  padding-right: 0;
+}
+
+.blood .left .col-md-9{
+  padding-left: 0;
+}
+
+.blood .block-title{
+  width: 85%;
+}
+
+.blood .add-blood{
+  width: 15%;
+  margin-top: 20px;
+}
+
+.blood-border-buttom{
+  content: '';
+  border-bottom: 1px solid black;
+  margin-bottom: 15px;
+}
+
+.blood img{
+  border: 1px solid black;
+  width:100px;
+  height: 100px;
+}
+
+.blood .blood-date{
+  margin-bottom: 10px;
+}
+
+.blood .blood-description{
+  text-align: justify;
+  height: 40px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+.blood .contact{
+  margin-bottom: 8px;
+}
+
+.title{
+  margin-bottom: 1px;
+}
+
+/* RIGHT*/
+.right{
+  /*width: 25%;*/
+  float: left;
+  padding-left: 15px;
+}
+
+.right .event{
+  margin-bottom: 30px;
+}
+
+.right .left-padding{
+  padding-left: 18px;
+}
+
+.right p{
+  margin-bottom: 0;
+}
+
+/*Blood-Image*/
+.blood-container{
+  width: 100px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+
+}
+
+.blood-image{
+  height:105px;
+  width:70px;
+}
+
+
+.blood-container span{
+  font-size: 30px;
+  font-weight: bolder;
+  position: absolute;
+  bottom: 25px;
+
+}

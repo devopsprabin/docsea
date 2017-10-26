@@ -1,0 +1,57 @@
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/search-doctor">
+        <img src="./assets/images/logo.png" class="img-custom" alt="">
+      </a>
+    </div>
+
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+
+        <!--  ROUTERLINK -->
+        <li class="active"><a routerLink="/search-doctor" routerLinkActive="active">Find Doc</a></li>
+        <li><a routerLink="/blood-post" routerLinkActive="active">Blood Post</a></li>
+        <li><a routerLink="/events" routerLinkActive="active">Events</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span *ngIf="username; else noUser">{{ username }}</span>
+            <ng-template #noUser>More</ng-template>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <ng-container *ngIf="isLoggedIn && userType == 0">
+              <li><a routerLink="/admin" routerLinkActive="active" class="padding-left">Manage</a></li>
+            </ng-container>
+            <ng-container *ngIf="isLoggedIn && userType == 1">
+              <li><a routerLink="/hospital-panel" routerLinkActive="active" class="padding-left">Manage</a></li>
+            </ng-container>
+            <ng-container *ngIf="isLoggedIn && userType == 1">
+              <li><a [routerLink]="['/hospital-update' , username]" routerLinkActive="active" class="margin-left">Update Information</a></li>
+            </ng-container>
+            <div *ngIf="!isLoggedIn; else notLogged">
+              <li><a routerLink="/login" routerLinkActive="active" class="padding-left">Login</a></li>
+            </div>
+            <ng-template #notLogged>
+              <hr>
+              <li (click)="logout()"><a class="hand-pointer padding-left">Logout</a></li>
+            </ng-template>
+            <div *ngIf="!isLoggedIn;">
+              <li><a routerLink="/register" routerLinkActive="active" class="padding-left">Register</a></li>
+            </div>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

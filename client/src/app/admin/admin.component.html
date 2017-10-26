@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12  animated fadeIn">
+      <h1 class="well text-center">Hospitals</h1>
+    </div>
+  </div> <!-- /.row -->
+
+  <div class="row">
+    <div class="col-md-12  animated fadeIn">
+      <table class="table table-bordered table-striped table-hover" id="admin-table">
+        <thead>
+        <tr >
+          <th class="text-center">Registration No.</th>
+          <th class="text-center">Hospital</th>
+          <th class="text-center">License No.</th>
+          <th class="text-center">Address</th>
+          <th class="text-center">Phone No.</th>
+          <th class="text-center">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <ng-container *ngFor="let hosp of hospitals">
+          <tr>
+            <td class="text-capitalize">{{ hosp.hospital.registrationNo }}</td>
+            <td class="text-capitalize">{{ hosp.hospital.name }}</td>
+            <td class="text-capitalize">{{ hosp.hospital.lisenceNo }}</td>
+            <td class="text-capitalize">{{ hosp.hospital.address.city.name }} , {{ hosp.hospital.address.streetAddress }}</td>
+            <td class="text-center text-capitalize">{{ hosp.hospital.contact.contactNumber1}}</td>
+            <td class="text-center text-capitalize">
+              <ng-container *ngIf="hosp.user.status.status === 'ACTIVE'; else inactive">
+              <button class="btn btn-sm btn-success custom-button" (click)="toggleStatus(hosp.id)">{{ hosp.user.status.status }}</button>
+              </ng-container>
+
+              <ng-template #inactive>
+                <button class="btn btn-sm btn-danger" (click)="toggleStatus(hosp.id)">{{ hosp.user.status.status }}</button>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div> <!-- /.row -->
+</div> <!-- /.container -->

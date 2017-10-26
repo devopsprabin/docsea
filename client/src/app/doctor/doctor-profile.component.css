@@ -1,0 +1,72 @@
+.user-row {
+  margin-bottom: 14px;
+}
+
+.user-row:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-user {
+  margin: 13px 0;
+  padding: 5px;
+  height: 100%;
+}
+
+.dropdown-user:hover {
+  cursor: pointer;
+}
+
+.panel-heading{
+  background: #99ACA2;
+  color: white;
+  text-align: center;
+}
+
+.table-user-information > tbody > tr {
+  border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+  border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+  border-top: 0;
+}
+.toppad
+{margin-top:20px;
+}
+
+.table-padding{
+  padding-top: 56px;
+}
+
+.custom-image{
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+td.overflow{
+  display: block;
+  height: 90px;
+  overflow: auto;
+}
+
+.footer-height{
+  height: 55px !important;
+}
+
+
+.table-doctor-schedule > tbody > tr > td{
+  height:50px;
+  padding-top:12px;
+}
+
+.table-doctor-schedule > tbody > tr > th{
+  height:53px;
+  padding-top:15px;
+  font-size: large;
+  font-weight: bold;
+}

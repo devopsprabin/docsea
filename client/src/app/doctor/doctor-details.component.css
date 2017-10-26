@@ -1,0 +1,40 @@
+.profile-background{
+  margin-top: -20px;
+  background: #99ACA2;
+  height: 900px;
+  position: fixed;
+  padding-top: 60px;
+}
+
+.custom-image{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: white;
+  padding: 5px;
+}
+
+.schedule-position{
+  position: relative;
+  left: 350px;
+}
+
+.map-position{
+  position: relative;
+  left: 410px;
+}
+
+.doctorName{
+  padding-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.doctorSpeciality, .doctorGender{
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.doctorEmail{
+  font-size: 18px;
+}

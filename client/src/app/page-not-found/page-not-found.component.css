@@ -1,0 +1,44 @@
+.no-result {
+  transform: scale(0.6);
+}
+.no-result h3 {
+  padding: 50px 0;
+  text-align: center;
+  font-size: 3em;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+.no-result .no-result-face {
+  height: 20em;
+  width: 20em;
+  display: block;
+  margin: 50px auto;
+  border-radius: 40px;
+  border: 1em solid #454545;
+  position: relative;
+}
+.no-result .no-result-face .no-result-eyes {
+  display: block;
+  height: 3em;
+  width: 3em;
+  border-radius: 50%;
+  position: absolute;
+  background: #454545;
+  top: 5em;
+  left: 4em;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+}
+.no-result .no-result-face .no-result-eyes:nth-of-type(2) {
+  display: block;
+  left: 11em;
+}
+.no-result .no-result-face .no-result-mouth {
+  background: #454545;
+  position: absolute;
+  top: 12em;
+  left: 6em;
+  height: 1.3em;
+  width: 6em;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  transform: matrix(1, 0.14, 0, 1, 0, 0);
+}

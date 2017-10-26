@@ -1,0 +1,144 @@
+<div class="container fix-nav-padding">
+  <div class="fix-nav-padding"></div>
+  <div class="row blood">
+    <div class="col-md-8" style="padding-left: 0">
+
+      <h2 class="block-title pull-left">Blood Posts</h2>
+      <button type="button" class="btn btn-primary pull-right add-blood" data-toggle="modal" data-target="#myModal">
+        Add Blood Post
+      </button>
+      <div class="blood-border-buttom clearfix"></div>
+
+    </div>
+    <div class="col-md-offset-1 col-md-3">
+      <h2 class="block-title">Events</h2>
+      <div class="blood-border-buttom"></div>
+    </div>
+  </div>
+  <div class="col-md-8">
+  <div class="left">
+    <ng-container *ngFor="let bloodPost of bloodPostList">
+        <section class="row">
+          <div class="col-md-2">
+            <span class="blood-container">
+              <img src="./assets/images/blood-bg.png" class="blood-image">
+              <span>{{bloodPost.bloodGroup.bloodGroup}}</span>
+            </span>
+          </div>
+          <div class="col-md-9">
+            <p class="blood-dates pull-left"><b>Posted : </b>{{bloodPost.postDate}}</p>
+            <p class="blood-dates pull-right"><b>Till : </b>{{bloodPost.deadline}}</p>
+            <div class="clearfix"></div>
+            <p class="blood-description">
+              {{bloodPost.post}}
+            </p>
+            <p class="contact"><b>Contact:</b>{{bloodPost.contact}}</p>
+            <p class="location"><b>Location:</b>{{bloodPost.location}}</p>
+          </div>
+        </section>
+        <hr>
+    </ng-container>
+  </div>
+  </div>
+
+    <div class="row left-padding col-md-offset-1 col-md-3">
+      <div class="right">
+      <ng-container *ngFor="let event of eventList">
+        <div class="event">
+          <h4><b>{{event.name}}</b></h4>
+          <p>Location: {{event.location}}</p>
+          <p>Date: {{event.dates}}</p>
+          <p>Time: {{event.time}}</p>
+          <p>Contact: {{event.hospital.contact.contactNumber1}}</p>
+        </div>
+        <hr>
+      </ng-container>
+      </div>
+    </div> <!-- /.right -->
+</div><!-- /.container -->
+
+
+<!-- Add Blood Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Blood</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" #addBloodpost="ngForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+
+            <label for="bloodGroup" class="col-sm-3 control-label">Blood Group: </label>
+            <div class="col-sm-9">
+              <select type="text" class="form-control" name="bloodGroup" id="bloodGroup"
+                      [(ngModel)]="blood.bloodGroup.bloodGroup" #bloodGroup="ngModel" required>
+                <ng-container *ngFor="let bloodGroup of bloodGroupList">
+                  <option value="{{bloodGroup.bloodGroup}}">{{bloodGroup.bloodGroup}}</option>
+                </ng-container>
+              </select>
+              <div *ngIf="bloodGroup.errors && bloodGroup.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!bloodGroup.errors.required">Blood Group is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="deadline" class="col-sm-3 control-label">Required Date: </label>
+            <div class="col-sm-9">
+              <input type="date" class="form-control" name="deadline" id="deadline" placeholder="Required Date..."
+                     [(ngModel)]="blood.deadline" #deadline="ngModel" required>
+              <div *ngIf="deadline.errors && deadline.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!deadline.errors.required">Required Date is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="location" class="col-sm-3 control-label">Location: </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="location" id="location" placeholder="Location..."
+                     [(ngModel)]="blood.location" #location="ngModel" required>
+              <div *ngIf="location.errors && location.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!location.errors.required">Location is required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class= "form-group">
+            <label for="contact" class="col-sm-3 control-label">Contact: </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="contact" id="contact" placeholder="Contact..."
+                     [(ngModel)]="blood.contact" #contact="ngModel" required pattern="[0-9]{9,10}" maxlength="10">
+
+              <div *ngIf="contact.errors && contact.touched" class="alert alert-danger custom-label-alert">
+                <span [hidden]="!contact.errors.required">Number is required</span>
+                <span [hidden]="!contact.errors.pattern">Number must be 9-10 digit only</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="col-sm-3 control-label">Description: </label>
+            <div class="col-sm-9">
+              <textarea class="form-control" name="description"
+                        name="description" id="description" placeholder="Description..."
+                        cols="30" rows="5"
+                        [(ngModel)]="blood.post" #description="ngModel" required></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Post"
+                    [disabled]="!addBloodpost.valid"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 toppad" >
+      <div class="panel panel-info animated slideInLeft">
+        <div class="panel-heading">
+          <h3 class="panel-title text-capitalize">{{doctor.name}}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-offset-1 col-md-10" align="center">
+              <img alt="User Pic"
+                   src="./assets/images/{{doctor.photo}}"
+                   class="img-responsive custom-image">
+              <table class="table table-user-information">
+                <tbody>
+                <tr>
+                  <td>NMC Number</td>
+                  <td>{{doctor.nmcNumber}}</td>
+                </tr>
+                <tr>
+                  <td>Qualification</td>
+                  <td>{{doctor.qualification.name}}</td>
+                </tr>
+                <tr>
+                  <td>Speciality</td>
+                  <td>{{doctor.speciality.name}}</td>
+                </tr>
+                <tr>
+                  <td>Gender</td>
+                  <td>{{doctor.gender}}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{{doctor.contact.emailId}}</td>
+                </tr>
+                <tr>
+                  <td>Contact No.</td>
+                  <td>{{doctor.contact.contactNumber1}} , {{doctor.contact.contactNumber2}}</td>
+                </tr>
+                <tr>
+                  <td width="30%" height="90">Details</td>
+                  <td class="overflow">{{doctor.details}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <button class="btn btn-warning" [routerLink]="['/update',doctor.id]">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 toppad">
+      <div class="panel panel-info animated slideInRight">
+        <div class="panel-heading">
+          <h3 class="panel-title">Doctor Schedule</h3>
+        </div>
+        <div class="panel-body table-padding">
+          <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+
+              <table class="table table-doctor-schedule">
+                <tbody class="text-center">
+                <tr>
+                  <th class="text-center">Day</th>
+                  <th class="text-center">Time</th>
+                </tr>
+                <ng-container *ngFor="let schedule of doctorScheduleList">
+                  <tr>
+                    <td>{{schedule.days.day}}</td>
+                    <td>
+                        <span>
+                          <input type="time" name="startTime" [(ngModel)]="schedule.startTime" #startTime="ngModel" [disabled]="tick">
+                        </span>
+                      to
+                      <span>
+                          <input type="time" name="endTime" [(ngModel)]="schedule.endTime" #endTime="ngModel" [disabled]="tick">
+                        </span>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <ng-container *ngIf="hide">
+            <button class="btn btn-warning" (click)="onEdit()">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </ng-container>
+          <ng-container name="save-block" *ngIf="!hide">
+            <button class="btn btn-success" name="save" (click)="onSave()">
+              <span class="glyphicon glyphicon-ok">
+              </span>
+            </button>
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+td{
+  padding: 23px 0 0 5px!important;
+}
+
+.no-padding{
+  padding: 0 !important;
+}
+
+.custom-circle{
+  border: 1px solid black;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+h1{
+  /*background: #3498db;*/
+  color: #344f61;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 35px;
+  text-transform: uppercase;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-padding{
+  padding: 8px 4px 6px !important;
+  height: 54px;
+}

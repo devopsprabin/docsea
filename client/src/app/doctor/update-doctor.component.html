@@ -1,0 +1,163 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1" >
+      <form class="form-horizontal form-box animated fadeInDownBig" #updatedoctor="ngForm" (ngSubmit)="update()" enctype="multipart/form-data">
+        <h2 class="text-center">Update a Doctor</h2>
+
+        <div class="form-group" >
+          <label class="col-md-2 control-label">Name:</label>
+          <div class="col-md-9">
+            <input type="text" class="form-control" id="docName" name="docName"
+                   [(ngModel)]="doctor.name" #docName="ngModel"
+                   placeholder="Enter Doctor's Name"
+                   required minlength="5">
+
+            <div *ngIf="docName.errors && docName.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docName.errors.required">Name is required</span>
+              <span [hidden]="!docName.errors.minlength">Name must be atleast 5 characters</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2  control-label">Gender:</label>
+          <div class="col-md-9">
+            <span class="col-md-9 form-control">
+            <span class="col-md-4">
+              <input type="radio" name="docgender" [(ngModel)]="doctor.gender" #docgender="ngModel" value="male">
+              <label>Male</label>
+            </span>
+            <span class="col-md-4">
+              <input type="radio" name="docgender" [(ngModel)]="doctor.gender" #docgender="ngModel" value="female">
+              <label>Female</label>
+            </span>
+            <span class="col-md-4">
+              <input type="radio" name="docgender" [(ngModel)]="doctor.gender" #docgender="ngModel" value="others">
+              <label>Others</label>
+            </span>
+              </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2  control-label">Qualification</label>
+          <div class="col-md-3">
+            <select type="text" class="form-control" name="docqualification"
+                    [(ngModel)]="doctor.qualification.name" #docqualification="ngModel" required>
+              <ng-container *ngFor="let qualification of qualificationList">
+                <option value="{{qualification.name}}">{{qualification.name}}</option>
+              </ng-container>
+            </select>
+
+            <div *ngIf="docqualification.errors && docqualification.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docqualification.errors.required">Qualification is required</span>
+            </div>
+          </div>
+
+          <!-- Speciality -->
+          <label class="col-md-3  control-label">Speciality:</label>
+
+          <div class="col-md-3">
+            <select type="text" class="form-control" name="docspeciality"
+                    [(ngModel)]="doctor.speciality.name"
+                    #docspeciality="ngModel" required>
+
+              <ng-container *ngFor="let speciality of specialityList">
+                <option value="{{speciality.name}}">{{speciality.name}}</option>
+              </ng-container>
+            </select>
+
+            <div *ngIf="docspeciality.errors && docspeciality.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docspeciality.errors.required">Speciality is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Primary Number:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="docnumber1"
+                   [(ngModel)]="doctor.contact.contactNumber1"
+                   #docnumber1="ngModel" placeholder="Enter Doctor's Primary Contact Number"
+                   pattern="[0-9]{9,10}" maxlength="10" required>
+
+            <div *ngIf="docnumber1.errors && docnumber1.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docnumber1.errors.required">Number is required</span>
+              <span [hidden]="!docnumber1.errors.pattern">Number must be 9-10 digit only</span>
+            </div>
+          </div>
+
+          <!-- Secondary Number -->
+          <label class="col-md-3 control-label">Secondary Number:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="docnumber4"
+                   [(ngModel)]="doctor.contact.contactNumber2"
+                   #docnumber4="ngModel" placeholder="Enter Doctor's Secondary Contact Number"
+                   pattern="[0-9]{9,10}" maxlength="10">
+
+            <div *ngIf="docnumber4.errors && docnumber4.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docnumber4.errors.pattern">Number must be 9-10 digit only</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Upload Picture:</label>
+          <div class="col-md-9">
+            <input type="file" class="form-control" name="docphoto"
+                   accept="image/*" (change)="onChange($event)">
+          </div>
+        </div>
+
+        <div class=" form-group">
+          <label class="col-md-2 control-label">Email:</label>
+          <div class="col-md-9">
+            <input type="email" class="form-control" name="docemail"
+                   [(ngModel)]="doctor.contact.emailId"
+                   #docemail="ngModel" placeholder="Enter Doctor's Email Address"
+                   required #email pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+
+            <div *ngIf="docemail.errors && docemail.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docemail.errors.required">Email is required</span>
+              <span [hidden]="!docemail.errors.pattern">Email is not valid</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">NMC Number:</label>
+          <div class="col-md-9">
+            <input type="text" class="form-control" name="docnmc"
+                   [(ngModel)]="doctor.nmcNumber"
+                   #docnmc="ngModel" placeholder="Enter Doctor's Nepal Medical Council Number"
+                   required pattern="[0-9]{1,5}">
+
+            <div *ngIf="docnmc.errors && docnmc.touched" class="alert alert-danger custom-label-alert">
+              <span [hidden]="!docnmc.errors.required">NMC is required</span>
+              <span [hidden]="!docnmc.errors.pattern">NMC is not valid</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Details:</label>
+          <div class="col-md-9">
+            <textarea rows="3" class="form-control" name="docdetails"
+                      [(ngModel)]="doctor.details"
+                      #docdetails="ngModel" placeholder="Enter Further Details of the Doctor">
+            </textarea>
+          </div>
+        </div>
+
+        <div class="col-md-11 no-padding">
+          <button class="btn btn-warning pull-right" style="margin-left: 10px">Cancel</button>
+          <input type="submit" value="Update Doctor"
+                 class="btn btn-md btn-success pull-right"
+                 [disabled]="!updatedoctor.valid">
+        </div>
+        <div class="clearfix" style="padding-bottom: 15px"></div>
+
+      </form>
+    </div>
+  </div>
+</div>
