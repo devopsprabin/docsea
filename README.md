@@ -22,7 +22,10 @@ https://immense-refuge-73759.herokuapp.com/swagger-ui.html#/
 
 
 ### Login Credentials 
-> For ** admin ** who can activate and deactive registered hospital
+> For admin who can activate and deactive registered hospital
 username : admin
 password : admin
 
+> For registered hospital who can add doctor and create event 
+username : bnb
+password : bnb
