@@ -22,7 +22,7 @@ https://immense-refuge-73759.herokuapp.com/swagger-ui.html#/
 
 
 ### Login Credentials 
-> for admin who can activate and deactive registered hospital
+> For ** admin ** who can activate and deactive registered hospital
 username : admin
 password : admin
 
