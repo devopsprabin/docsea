@@ -6,7 +6,7 @@
 
 1. Open project as Maven Project. (auto-import enable)
 
-2. Create database name 'docsea'  (edit application.yml file's to change password)
+2. Create database name 'docsea'  (edit application.properties file's to change database username and password)
 				
 3. mvn clean spring-boot:run to run backend
         
