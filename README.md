@@ -18,10 +18,15 @@
 
 
 ### API Documentation ###
-https://gentle-waters-32269.herokuapp.com/swagger-ui.html#/
+https://immense-refuge-73759.herokuapp.com/swagger-ui.html
 
 
 ### Login Credentials 
-username : tester2
-password : tester2
+### Login Credentials 
+> for admin who can activate and deactive registered hospital
+username : admin
+password : admin
 
+> for user who can activate and deactive registered hospital
+username : bnb  
+password : bnb
