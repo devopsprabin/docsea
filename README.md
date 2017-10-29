@@ -21,7 +21,7 @@
 https://immense-refuge-73759.herokuapp.com/swagger-ui.html
 
 ### Website
-https://docsea.itglance.org
+http://docsea.itglance.org/#/home
 
 ### Login Credentials 
  
