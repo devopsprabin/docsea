@@ -14,7 +14,9 @@
 ### Frontend ###
 1. Open client folder in Webstorm or Intellij
 
-2. ng serve to run frontend 
+2. npm install to install dependencies
+
+3. ng serve to run frontend 
 
 
 ### API Documentation ###
