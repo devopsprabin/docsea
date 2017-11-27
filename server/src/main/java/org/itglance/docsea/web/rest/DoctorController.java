@@ -4,13 +4,19 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
+import org.itglance.docsea.domain.BloodPost;
 import org.itglance.docsea.domain.Doctor;
 import org.itglance.docsea.repository.DoctorRepository;
+import org.itglance.docsea.restutil.PaginationUtil;
 import org.itglance.docsea.service.DoctorService;
 import org.itglance.docsea.service.SessionService;
 import org.itglance.docsea.service.dto.DoctorDTO;
 import org.itglance.docsea.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,13 +91,14 @@ public class DoctorController {
         return new ResponseEntity("Doctor inserted", HttpStatus.OK);
     }
 
-    @RequestMapping( method = RequestMethod.GET)
-    public ResponseEntity<List<DoctorDTO>> listAllDoctors() {
-        List<DoctorDTO> list = doctorService.getAllDoctor();
-        if (list.isEmpty()) {
-            return new ResponseEntity<List<DoctorDTO>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<Doctor>> listAllDoctors(@ApiParam Pageable pageable) {
+
+        Page<Doctor> doctorList = doctorService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil
+                .generatePaginationHttpHeaders(doctorList, "/api/doctors");
+        return new ResponseEntity<>(doctorList.getContent(), headers, HttpStatus.OK);
+
     }
 
     @GetMapping(value="/{id}")

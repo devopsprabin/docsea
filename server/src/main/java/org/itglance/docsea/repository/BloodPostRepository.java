@@ -25,4 +25,5 @@ public interface BloodPostRepository extends JpaRepository <BloodPost,Long>{
 
     @Query("SELECT b FROM BloodPost b ORDER BY b.postDate desc ")
     public List<BloodPost> getBloodIndescending();
+
 }

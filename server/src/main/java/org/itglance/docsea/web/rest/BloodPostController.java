@@ -1,12 +1,15 @@
 package org.itglance.docsea.web.rest;
 
+import io.swagger.annotations.ApiParam;
 import org.itglance.docsea.domain.BloodPost;
 import org.itglance.docsea.repository.BloodPostRepository;
+import org.itglance.docsea.restutil.PaginationUtil;
 import org.itglance.docsea.service.BloodPostService;
 import org.itglance.docsea.service.dto.BloodPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,13 +63,21 @@ public class BloodPostController {
 //    }
 
     @GetMapping
-    public ResponseEntity<?> getBloodPost() {
-        List<BloodPost> bloodPostDTOS=bloodPostService.getAllBlood();
-//        if(bloodPostDTOS == null){
-//            return new ResponseEntity<String>("their are no blood posts",HttpStatus.NO_CONTENT);
-//        }
-        System.out.println(bloodPostDTOS);
-        return new ResponseEntity<List<BloodPost>>(bloodPostDTOS,HttpStatus.OK) ;
+    public ResponseEntity<List<BloodPost>> getBloodPost(@ApiParam Pageable pageable) {
+
+        //it worked b4, but upgraded for new pagination concept #Nischal_Employee
+//        List<BloodPost> bloodPostDTOS=bloodPostService.getAllBlood();
+////        if(bloodPostDTOS == null){
+////            return new ResponseEntity<String>("their are no blood posts",HttpStatus.NO_CONTENT);
+////        }
+//        System.out.println(bloodPostDTOS);
+//        return new ResponseEntity<List<BloodPost>>(bloodPostDTOS,HttpStatus.OK) ;
+//
+
+        Page<BloodPost> bloodPostList = bloodPostService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil
+                .generatePaginationHttpHeaders(bloodPostList, "/api/bloodPost");
+        return new ResponseEntity<>(bloodPostList.getContent(), headers, HttpStatus.OK);
 
     }
 }

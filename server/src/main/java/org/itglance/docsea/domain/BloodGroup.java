@@ -9,7 +9,9 @@ import javax.persistence.Id;
  * Created by sanjib on 6/18/17.
  */
 
+
 @Entity
+
 public class BloodGroup {
 
     @Id

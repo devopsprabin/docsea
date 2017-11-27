@@ -1,9 +1,15 @@
 package org.itglance.docsea.web.rest;
 
+import io.swagger.annotations.ApiParam;
+import org.itglance.docsea.domain.BloodPost;
 import org.itglance.docsea.domain.Event;
+import org.itglance.docsea.restutil.PaginationUtil;
 import org.itglance.docsea.service.EventService;
 import org.itglance.docsea.service.dto.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,12 +62,13 @@ public class EventController {
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public ResponseEntity<?> listAllEvents() {
-        List<Event> list = eventService.getAllValidEvents();
-        if (list.isEmpty()) {
-            return new ResponseEntity<String>("There are no events",HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<Event>>(list, HttpStatus.OK);
+    public ResponseEntity<List<Event>> listAllEvents(@ApiParam Pageable pageable) {
+
+        Page<Event> eventList = eventService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil
+                .generatePaginationHttpHeaders(eventList, "/api/events");
+        return new ResponseEntity<>(eventList.getContent(), headers, HttpStatus.OK);
+
     }
 
 
@@ -96,4 +103,7 @@ public class EventController {
             return new ResponseEntity<String>("Event doesn't exist", HttpStatus.CONFLICT);
         }
     }
+
+
+
 }
