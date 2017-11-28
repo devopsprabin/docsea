@@ -26,10 +26,13 @@ public class Address {
 
     @ManyToOne
     private City city;
+
     @ManyToOne
     private District district;
+
     @ManyToOne
     private Zone zone;
+
     @ManyToOne
     private Country country;
 

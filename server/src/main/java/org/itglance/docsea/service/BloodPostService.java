@@ -12,6 +12,8 @@ import org.itglance.docsea.repository.BloodPostRepository;
 import org.itglance.docsea.repository.ContactRepository;
 import org.itglance.docsea.service.dto.BloodPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class BloodPostService {
+public class BloodPostService  {
 
     @Autowired
     BloodGroupService bloodGroupService;
@@ -83,4 +85,11 @@ public class BloodPostService {
 
 
     }
+
+
+    public Page<BloodPost> findAll(Pageable pageable) {
+        return bloodPostRepository.findAll(pageable);
+    }
+
+
 }

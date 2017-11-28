@@ -24,7 +24,7 @@ public class AddressController {
     @Autowired
     AddressService addressService;
 
-    public static final Logger logger = LoggerFactory.getLogger(HospitalController.class);
+    public static final Logger logger = LoggerFactory.getLogger(AddressController.class);
 
     @GetMapping(value = "/addresses")
     public ResponseEntity<List<Address>> getAddresses( )
@@ -32,6 +32,7 @@ public class AddressController {
         logger.info("get addresses api called  ");
         List<Address> addressList = addressService.getAllAddresses();
         if(addressList == null){
+
             logger.error("There is no records in address table.");
             return new ResponseEntity("There is no records in address table.", HttpStatus.CONFLICT);
         }
@@ -42,6 +43,7 @@ public class AddressController {
     public ResponseEntity<List<Country>> getCountries()
     {
         List<Country> countries = addressService.getAllCountries();
+
         if(countries == null){
             logger.error("There is no records in country table.");
             return new ResponseEntity("There is no records in country table.", HttpStatus.CONFLICT);
@@ -52,7 +54,9 @@ public class AddressController {
     @GetMapping(value = "/addresses/zones")
     public ResponseEntity<List<Zone>> getZones()
     {
+        logger.info("GET addresses/zones api called  ");
         List<Zone> zones = addressService.getAllZones();
+
         if(zones == null){
             logger.error("There is no records in zone table.");
             return new ResponseEntity("There is no records in zone table.", HttpStatus.CONFLICT);
@@ -63,7 +67,9 @@ public class AddressController {
     @GetMapping(value = "/addresses/districts")
     public ResponseEntity<List<District>> getDistricts()
     {
+        logger.info("GET addresses/districts api called  ");
         List<District> districts = addressService.getAllDistricts();
+
         if(districts == null){
             logger.error("There is no records in district table.");
             return new ResponseEntity("There is no records in district table.", HttpStatus.CONFLICT);
@@ -74,7 +80,9 @@ public class AddressController {
     @GetMapping(value = "/addresses/cities")
     public ResponseEntity<List<City>> getCities()
     {
+        logger.info("GET addresses/districts api called  ");
         List<City> cities = addressService.getAllCities();
+
         if(cities == null){
             logger.error("There is no records in city table.");
             return new ResponseEntity("There is no records in city table.", HttpStatus.CONFLICT);
@@ -84,6 +92,7 @@ public class AddressController {
 
     @GetMapping(value = "/addresses/zones/{country}")
     public ResponseEntity<List<Zone>> getZonesFromCountry(@PathVariable("country") String country){
+        logger.info("Country details");
         logger.info(country);
 
         List<Zone> zones = addressService.getZonesFromCountry(country);

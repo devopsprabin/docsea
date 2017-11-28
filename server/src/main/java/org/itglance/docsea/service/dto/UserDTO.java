@@ -5,6 +5,7 @@ import org.itglance.docsea.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by soni on 5/8/2017.
@@ -16,6 +17,11 @@ public class UserDTO {
     private String password;
     private Status status;
     private int userType;
+
+    //added for jwt
+    private boolean activated = false;
+    private Set<String> authorities;
+    //
 
     public UserDTO() {
     }
@@ -52,14 +58,23 @@ public class UserDTO {
         return userType;
     }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public Set<String> getAuthorities() {
+        return authorities;
+    }
+
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UsersDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status=" + status +
                 ", userType=" + userType +
                 '}';
+
     }
 }

@@ -1,11 +1,14 @@
 package org.itglance.docsea.service;
 
+import org.itglance.docsea.domain.BloodPost;
 import org.itglance.docsea.domain.Event;
 import org.itglance.docsea.domain.Hospital;
 import org.itglance.docsea.repository.EventRepository;
 import org.itglance.docsea.repository.HospitalRepository;
 import org.itglance.docsea.service.dto.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -105,6 +108,11 @@ public class EventService {
         Event event = eventRepository.getOne(eventId);
         return event;
     }
+
+    public Page<Event> findAll(Pageable pageable) {
+        return eventRepository.findAll(pageable);
+    }
+
 }
 
 

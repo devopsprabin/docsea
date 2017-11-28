@@ -9,6 +9,8 @@ import org.itglance.docsea.repository.ScheduleRepository;
 import org.itglance.docsea.service.dto.DoctorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import java.util.List;
 import org.itglance.docsea.repository.*;
 import org.itglance.docsea.service.dto.ScheduleDTO;
 
+import javax.print.Doc;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -241,4 +244,11 @@ public class DoctorService {
         Doctor doctor = doctorRepository.findOne(id);
         return new DoctorDTO(doctor);
     }
+
+    //added by urgyen for pagination
+    public Page<Doctor> findAll(Pageable pageable) {
+        return doctorRepository.findAll(pageable);
+    }
+
+
 }

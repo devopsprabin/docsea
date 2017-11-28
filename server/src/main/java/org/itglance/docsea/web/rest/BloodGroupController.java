@@ -32,6 +32,7 @@ public class BloodGroupController {
 
     @GetMapping
     public ResponseEntity<List<BloodGroup>> getBloodGroup(){
+        logger.info("GET blood group Info api called  ");
 
         List<BloodGroup> bloodGroupList = bloodGroupRepository.findAll();
         if(bloodGroupList == null){

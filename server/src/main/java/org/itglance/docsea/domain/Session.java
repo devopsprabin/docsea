@@ -6,6 +6,7 @@ import javax.persistence.Id;
 /**
  * Created by soni on 5/23/2017.
  */
+
 @Entity
 public class Session {
     @Id
