@@ -2,6 +2,8 @@ package org.itglance.docsea.web.rest;
 
 import org.itglance.docsea.domain.BloodGroup;
 import org.itglance.docsea.repository.BloodGroupRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,8 +28,12 @@ public class BloodGroupController {
         this.bloodGroupRepository = bloodGroupRepository;
     }
 
+    public static final Logger logger = LoggerFactory.getLogger(BloodGroupController.class);
+
     @GetMapping
     public ResponseEntity<?> getBloodGroup(){
+        logger.info("GET blood group Info api called  ");
+
         return new ResponseEntity<List<BloodGroup>>(bloodGroupRepository.findAll(), HttpStatus.OK);
     }
 }

@@ -6,6 +6,8 @@ import org.itglance.docsea.repository.BloodPostRepository;
 import org.itglance.docsea.restutil.PaginationUtil;
 import org.itglance.docsea.service.BloodPostService;
 import org.itglance.docsea.service.dto.BloodPostDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,12 +37,22 @@ public class BloodPostController {
         this.bloodPostRepository = bloodPostRepository;
     }
 
+    public static final Logger logger = LoggerFactory.getLogger(BloodPostController.class);
+
+
+    @GetMapping
+    public ResponseEntity<List<BloodPost>> getBloodPost(@ApiParam Pageable pageable) {
+        logger.info("GET bloodPost api called  ");
+        Page<BloodPost> bloodPostList = bloodPostService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil
+                .generatePaginationHttpHeaders(bloodPostList, "/api/bloodPost");
+        return new ResponseEntity<>(bloodPostList.getContent(), headers, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> postBlood(@RequestBody BloodPostDTO bloodPostDTO) throws ParseException {
-
-        System.out.println("----------------this is blood post********");
-        System.out.println(bloodPostDTO.toString());
-        System.out.println("----------------this is blood post********");
+        logger.info("POST bloodpost api called  ");
+        logger.info(bloodPostDTO.toString());
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
         Date d = dateFormatter.parse(dateFormatter.format(new Date() ));
@@ -51,33 +63,4 @@ public class BloodPostController {
         return new ResponseEntity<String>("Inserted sucessfully",HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getBloodPost(Pageable page) throws ParseException {
-//        Page<BloodPost> bloodPost = bloodPostService.getAllBlood(page);
-//        if(bloodPost == null){
-//            return new ResponseEntity<String>("their is no bloodPost",HttpStatus.NO_CONTENT);
-//        }
-//        System.out.println(bloodPost);
-//        return new ResponseEntity<Page<BloodPost>>(bloodPost,HttpStatus.OK) ;
-//
-//    }
-
-    @GetMapping
-    public ResponseEntity<List<BloodPost>> getBloodPost(@ApiParam Pageable pageable) {
-
-        //it worked b4, but upgraded for new pagination concept #Nischal_Employee
-//        List<BloodPost> bloodPostDTOS=bloodPostService.getAllBlood();
-////        if(bloodPostDTOS == null){
-////            return new ResponseEntity<String>("their are no blood posts",HttpStatus.NO_CONTENT);
-////        }
-//        System.out.println(bloodPostDTOS);
-//        return new ResponseEntity<List<BloodPost>>(bloodPostDTOS,HttpStatus.OK) ;
-//
-
-        Page<BloodPost> bloodPostList = bloodPostService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil
-                .generatePaginationHttpHeaders(bloodPostList, "/api/bloodPost");
-        return new ResponseEntity<>(bloodPostList.getContent(), headers, HttpStatus.OK);
-
-    }
 }

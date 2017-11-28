@@ -2,6 +2,8 @@ package org.itglance.docsea.web.rest;
 
 import org.itglance.docsea.service.DoctorSearchService;
 import org.itglance.docsea.service.dto.DoctorDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +24,16 @@ public class DoctorSearchController {
     @Autowired
     private DoctorSearchService doctorSearchService;
 
+    private static final Logger logger= LoggerFactory.getLogger(DoctorSearchController.class);
+
     @RequestMapping(value="/{searchString}", method = RequestMethod.GET)
     public ResponseEntity<?> searchDoctor(@PathVariable String searchString){
-        System.out.println("********************search string***********************");
-        System.out.println(searchString);
+        logger.info("********************search string***********************");
+        logger.info(searchString);
        List<DoctorDTO> doctors= doctorSearchService.findDoctor(searchString);
         System.out.println(doctors);
         if(doctors.isEmpty()){
-            System.out.println("*********************doctor not found********************");
+            logger.error("*********************doctor not found********************");
             return  new ResponseEntity<String>("Doctor not found", HttpStatus.CONFLICT);
         }
        return new ResponseEntity<List<DoctorDTO>>(doctors,HttpStatus.OK);
@@ -47,7 +51,7 @@ public class DoctorSearchController {
     public ResponseEntity<?> quickSearch(@PathVariable("str") String str){
         List<String> searchResults =new ArrayList<>();
         searchResults = doctorSearchService.getStringListForSearch(str);
-        System.out.println("------search result------");
+        logger.info("------search result------");
        return new ResponseEntity<List<String>>(searchResults, HttpStatus.OK);
     }
 }

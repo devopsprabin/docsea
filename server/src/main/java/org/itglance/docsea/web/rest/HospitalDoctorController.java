@@ -6,6 +6,8 @@ import org.itglance.docsea.service.SessionService;
 import org.itglance.docsea.service.dto.DoctorDTO;
 import org.itglance.docsea.service.dto.HospitalDTO;
 import org.itglance.docsea.service.dto.StatusDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +29,14 @@ public class HospitalDoctorController {
     @Autowired
     private SessionService sessionService;
 
+    private final static Logger logger= LoggerFactory.getLogger(HospitalDoctorController.class);
+
     @GetMapping(value = "/status/{doctorId}")
     public ResponseEntity<?> getStatusOfDoctor(@RequestHeader String Authorization, @PathVariable("doctorId") Long doctorId){
 
         StatusDTO statusDTO = hospitalDoctorService.getStatusFromHospitalAndDoctor(doctorId, Authorization);
-        System.out.println("**************status of doctor**********");
-        System.out.println("doctor status having id:"+doctorId+" : "+statusDTO.getStatus());
+        logger.info("**************status of doctor**********");
+        logger.info("doctor status having id:"+doctorId+" : "+statusDTO.getStatus());
         return new ResponseEntity<StatusDTO>(statusDTO, HttpStatus.OK);
     }
 

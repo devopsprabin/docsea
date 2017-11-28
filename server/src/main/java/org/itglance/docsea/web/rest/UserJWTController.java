@@ -59,6 +59,7 @@ public class UserJWTController {
 
             boolean rememberMe = (loginVM.isRememberMe() == null) ? false :
                     loginVM.isRememberMe();
+
             String jwt = tokenProvider.createToken(authentication, rememberMe);
 
             response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);

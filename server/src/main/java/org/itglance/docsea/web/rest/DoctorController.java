@@ -13,6 +13,8 @@ import org.itglance.docsea.service.DoctorService;
 import org.itglance.docsea.service.SessionService;
 import org.itglance.docsea.service.dto.DoctorDTO;
 import org.itglance.docsea.service.ScheduleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +53,9 @@ public class DoctorController {
     @Autowired
     private SessionService sessionService;
 
-    private String defaultPhoto="doctor.png";
+    private String defaultPhoto = "doctor.png";
+
+    public static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
 
     //Adding doctor
     @RequestMapping(method = RequestMethod.POST)
@@ -59,29 +63,27 @@ public class DoctorController {
             @RequestParam(required = false) MultipartFile file,
             @RequestParam String doctor,
             MultipartHttpServletRequest request,
-            @RequestHeader String Authorization) throws MissingServletRequestPartException,IOException,MultipartException{
-
-        System.out.println("*********  ADD DOCTOR  **************");
-        System.out.println(Authorization);
+            @RequestHeader String Authorization) throws MissingServletRequestPartException, IOException, MultipartException {
+        logger.info("*********  ADD DOCTOR  **************");
+        logger.info(Authorization);
         Long hospitalId = sessionService.checkSession(Authorization).getHospitalId();
-        ObjectMapper objectMapper=new ObjectMapper();
-        try{
-            DoctorDTO doctorDTO=objectMapper.readValue(doctor,DoctorDTO.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            DoctorDTO doctorDTO = objectMapper.readValue(doctor, DoctorDTO.class);
             String photoName;
-            if(file!=null) {
+            if (file != null) {
                 photoName = doctorService.renamePhoto(file);
-            }
-            else{
-                photoName=defaultPhoto;
+            } else {
+                photoName = defaultPhoto;
             }
             doctorDTO.setPhoto(photoName);
-            if(doctorService.isDoctorExist(doctorDTO, hospitalId)){
+            if (doctorService.isDoctorExist(doctorDTO, hospitalId)) {
                 return new ResponseEntity("Doctor already exists (You have already inserted doctor)", HttpStatus.CONFLICT);
             }
-            System.out.println("****************--*********************");
-            System.out.println(doctorDTO);
+            logger.info("*****doctorDTO*****");
+            logger.info(doctorDTO.toString());
             doctorService.addDoctor(doctorDTO, Authorization);
-        }catch (JsonParseException e1) {
+        } catch (JsonParseException e1) {
             e1.printStackTrace();
         } catch (JsonMappingException e1) {
             e1.printStackTrace();
@@ -93,6 +95,7 @@ public class DoctorController {
 
     @GetMapping
     public ResponseEntity<List<Doctor>> listAllDoctors(@ApiParam Pageable pageable) {
+        logger.info("list Doctors API called");
 
         Page<Doctor> doctorList = doctorService.findAll(pageable);
         HttpHeaders headers = PaginationUtil
@@ -101,11 +104,11 @@ public class DoctorController {
 
     }
 
-    @GetMapping(value="/{id}")
-    public ResponseEntity<DoctorDTO> getDoctor(@PathVariable("id") Long id){
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<DoctorDTO> getDoctor(@PathVariable("id") Long id) {
         DoctorDTO doctorDTO = doctorService.getOneDoctor(id);
 
-        if (doctorDTO==null) {
+        if (doctorDTO == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
@@ -117,26 +120,26 @@ public class DoctorController {
     public ResponseEntity<?> updateDoctor(
             @RequestParam(required = false) MultipartFile file,
             @RequestParam(required = true) String doctor,
-            HttpServletRequest request) throws MissingServletRequestPartException,IOException{
+            HttpServletRequest request) throws MissingServletRequestPartException, IOException {
 
         System.out.println("***************** UPDATE DOCOTR ************************");
-        Doctor doctor1=new Doctor();
-        ObjectMapper objectMapper=new ObjectMapper();
+        Doctor doctor1 = new Doctor();
+        ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        try{
-            DoctorDTO doctorDTO=objectMapper.readValue(doctor,DoctorDTO.class);
+        try {
+            DoctorDTO doctorDTO = objectMapper.readValue(doctor, DoctorDTO.class);
             String photoName;
-            if(file!=null) {
+            if (file != null) {
                 photoName = doctorService.renamePhoto(file);
                 doctorDTO.setPhoto(photoName);
             }
-            if(!doctorService.isDoctorExist(doctorDTO.getId())){
+            if (!doctorService.isDoctorExist(doctorDTO.getId())) {
                 return new ResponseEntity<String>(("Cannot find doctor in database."), HttpStatus.CONFLICT);
-            }else if(!doctorService.validateNmcforUpdate(doctorDTO)){
-                return new ResponseEntity<String>(("Doctor with the nmcNumber "+doctorDTO.getNmcNumber()+" already exists"), HttpStatus.CONFLICT);
+            } else if (!doctorService.validateNmcforUpdate(doctorDTO)) {
+                return new ResponseEntity<String>(("Doctor with the nmcNumber " + doctorDTO.getNmcNumber() + " already exists"), HttpStatus.CONFLICT);
             }
             doctorService.updateDoctor(doctorDTO);
-        }catch (JsonParseException e1) {
+        } catch (JsonParseException e1) {
             e1.printStackTrace();
         } catch (JsonMappingException e1) {
             e1.printStackTrace();

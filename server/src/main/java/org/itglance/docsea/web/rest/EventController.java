@@ -6,6 +6,8 @@ import org.itglance.docsea.domain.Event;
 import org.itglance.docsea.restutil.PaginationUtil;
 import org.itglance.docsea.service.EventService;
 import org.itglance.docsea.service.dto.EventDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,22 +35,22 @@ public class EventController {
     @Autowired
     private  EventService eventService;
 
+    private final static Logger logger= LoggerFactory.getLogger(EventController.class);
+
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
     Date d = dateFormatter.parse(dateFormatter.format(new Date() ));
 
     public EventController() throws ParseException {
     }
 
-    //    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @PostMapping
     public ResponseEntity<String> addEvents(@RequestBody EventDTO eventDTO,
                                        @RequestHeader String Authorization) throws ParseException {
         if (!(eventService.isEventExist(Authorization, eventDTO.getDates(), eventDTO.getName(), eventDTO.getTime()))) {
 
-
-            System.out.println("**************this is event dto*******************");
-            System.out.println(eventDTO.toString());
-            System.out.println("**************this is event dto*******************");
+            logger.info("**************this is event dto*******************");
+            logger.info(eventDTO.toString());
+            logger.info("**************this is event dto*******************");
 
             if(eventDTO.getDates().before(d)){
                return new ResponseEntity<String>("Invalid date", HttpStatus.BAD_REQUEST);
@@ -60,7 +62,6 @@ public class EventController {
         }
     }
 
-//    @RequestMapping(method = RequestMethod.GET)
     @GetMapping
     public ResponseEntity<List<Event>> listAllEvents(@ApiParam Pageable pageable) {
 
