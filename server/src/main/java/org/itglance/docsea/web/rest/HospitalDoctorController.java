@@ -35,8 +35,8 @@ public class HospitalDoctorController {
     public ResponseEntity<?> getStatusOfDoctor(@RequestHeader String Authorization, @PathVariable("doctorId") Long doctorId){
 
         StatusDTO statusDTO = hospitalDoctorService.getStatusFromHospitalAndDoctor(doctorId, Authorization);
-        System.out.println("**************status of doctor**********");
-        System.out.println("doctor status having id:"+doctorId+" : "+statusDTO.getStatus());
+        logger.info("**************status of doctor**********");
+        logger.info("doctor status having id:"+doctorId+" : "+statusDTO.getStatus());
         return new ResponseEntity<>(statusDTO, HttpStatus.OK);
 
     }

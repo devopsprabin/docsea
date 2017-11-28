@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    public static final Logger logger = LoggerFactory.getLogger(HospitalController.class);
+    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping(value = "/login")
 

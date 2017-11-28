@@ -105,10 +105,10 @@ public class ScheduleController {
     public ResponseEntity<?> updateSchedule(@RequestBody ScheduleStringDTO scheduleStringDTO
                                             , @PathVariable("doctorId") Long doctorId
                                             , @RequestHeader String Authorization){
-        System.out.println("*********************before *********************");
-        System.out.println("        --          ");
-        System.out.println(scheduleStringDTO.toString());
-        System.out.println(Authorization);
+        log.info("*********************before *********************");
+        log.info("        --          ");
+        log.info(scheduleStringDTO.toString());
+        log.info(Authorization);
         Long hospitalId = sessionService.checkSession(Authorization).getHospitalId();
 
         if(scheduleStringDTO.getEndTime().equals("") || scheduleStringDTO.getStartTime().equals("")){
@@ -117,14 +117,14 @@ public class ScheduleController {
         }
 
         ScheduleDTO scheduleDTO = scheduleService.convertIntoTime(scheduleStringDTO);
-        System.out.println("************************After converting into Time*****************************");
-        System.out.println(scheduleDTO.toString());
+        log.info("************************After converting into Time*****************************");
+        log.info(scheduleDTO.toString());
 
         if(scheduleDTO.getId() == null){
             ScheduleDTO scheduleDto= scheduleService.checkScheduleForInsert(scheduleDTO, doctorId);
             if(scheduleDto != null){
                 log.error("The schedule is overLapped to "+scheduleDto);
-                System.out.println("The schedule is overLapped to "+scheduleDto);
+                log.info("The schedule is overLapped to "+scheduleDto);
                 return new ResponseEntity<>(scheduleDto,HttpStatus.OK);
             }
             else {

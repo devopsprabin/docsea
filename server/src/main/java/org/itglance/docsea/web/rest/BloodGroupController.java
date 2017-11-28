@@ -23,7 +23,7 @@ import java.util.List;
 public class BloodGroupController {
 
     private BloodGroupRepository bloodGroupRepository;
-    public static final Logger logger = LoggerFactory.getLogger(HospitalController.class);
+    public static final Logger logger = LoggerFactory.getLogger(BloodGroupController.class);
 
 
     public BloodGroupController(BloodGroupRepository bloodGroupRepository) {

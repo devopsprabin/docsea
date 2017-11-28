@@ -49,13 +49,13 @@ public class StatusController {
     public ResponseEntity<?> toggleHospitalStatus(@PathVariable("userId") Long userId){
         HospitalUserDTO hospitalUserDTO = statusService.toggleHospitalStatus(userId);
         log.info("hospital userid: "+userId);
-        System.out.println("hospital id: "+userId);
+        log.info("hospital id: "+userId);
         return new ResponseEntity<>(hospitalUserDTO, HttpStatus.OK);
     }
 
     @PutMapping(value = "/toggleDoctor/{doctorId}")
     public ResponseEntity<?> toggleDoctorStatus(@RequestHeader String Authorization, @PathVariable("doctorId") Long docotorId){
-        System.out.println("------------------doctor status toggle called");
+        log.info("------------------doctor status toggle called");
         HospitalDoctorDTO hospitalDoctorDTO = statusService.toggleDoctorStatus(docotorId, Authorization);
 
         StatusDTO statusDTO = new StatusDTO(hospitalDoctorDTO.getStatus());
