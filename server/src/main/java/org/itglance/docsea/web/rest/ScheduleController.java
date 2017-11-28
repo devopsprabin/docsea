@@ -39,7 +39,7 @@ public class ScheduleController {
                 log.error("cannot find any schedule with schedule in database");
                 return new ResponseEntity<String>("cannot find any schedule with schedule in database", HttpStatus.CONFLICT);
             }
-            return new ResponseEntity<List<ScheduleDTO>>(scheduleDTO, HttpStatus.OK);
+            return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
         }
 
         // Returns schedule by schedule Id
@@ -51,7 +51,7 @@ public class ScheduleController {
                 log.error("cannot find the schedule with schedule id: "+scheduleId);
                 return new ResponseEntity<String>("cannot find the schedule with schedule id: "+scheduleId, HttpStatus.CONFLICT);
             }
-            return new ResponseEntity<ScheduleDTO>(scheduleDTO, HttpStatus.OK);
+            return new ResponseEntity<>(scheduleDTO, HttpStatus.OK);
         }
 
         //Returns list of schedule of hospital by hospital Id
@@ -61,9 +61,9 @@ public class ScheduleController {
             if(scheduleDTOS == null)
             {
                 log.error("cannot find the schedule with hospital id: "+hospitalId);
-                return new ResponseEntity<String>("cannot find the schedule with hospital id: "+hospitalId, HttpStatus.CONFLICT);
+                return new ResponseEntity<>("cannot find the schedule with hospital id: "+hospitalId, HttpStatus.CONFLICT);
             }
-            return new ResponseEntity<List<ScheduleDTO>>(scheduleDTOS, HttpStatus.OK);
+            return new ResponseEntity<>(scheduleDTOS, HttpStatus.OK);
         }
     //Returns list of schedule of doctor by doctor Id
     @GetMapping(value = "/doctor/{doctorId}")
@@ -74,7 +74,7 @@ public class ScheduleController {
             log.error("cannot find the schedule with doctor id: "+doctorId);
             return new ResponseEntity<String>("cannot find the schedule with doctor id: "+doctorId, HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<List<ScheduleDTO>>(scheduleDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(scheduleDTOS, HttpStatus.OK);
     }
 
     //Returns list of schedule of doctor work in particular hospital
@@ -86,9 +86,9 @@ public class ScheduleController {
         if(scheduleDTOS == null)
         {
             log.error("There is no schedule of doctor with doctorId: "+doctorId);
-            return new ResponseEntity<String>("There is no schedule of doctor with doctorId: "+doctorId, HttpStatus.CONFLICT);
+            return new ResponseEntity<>("There is no schedule of doctor with doctorId: "+doctorId, HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<List<ScheduleDTO>>(scheduleDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(scheduleDTOS, HttpStatus.OK);
     }
 
 
@@ -97,7 +97,7 @@ public class ScheduleController {
     public ResponseEntity<?> getHospitalsScheduleByDoctor(@PathVariable("doctorId") Long doctorId){
         Map<Long, List<ScheduleDTO>> stringListMap = new HashMap<>();
         stringListMap = scheduleService.getHospitals(doctorId);
-        return new ResponseEntity< Map<Long, List<ScheduleDTO>>>(stringListMap, HttpStatus.OK);
+        return new ResponseEntity<>(stringListMap, HttpStatus.OK);
     }
 
     //update schedule
@@ -113,7 +113,7 @@ public class ScheduleController {
 
         if(scheduleStringDTO.getEndTime().equals("") || scheduleStringDTO.getStartTime().equals("")){
             scheduleService.deleteSchedule(scheduleStringDTO.getId(),hospitalId,doctorId);
-            return  new ResponseEntity<String>("Schedule Deleted", HttpStatus.OK);
+            return  new ResponseEntity<>("Schedule Deleted", HttpStatus.OK);
         }
 
         ScheduleDTO scheduleDTO = scheduleService.convertIntoTime(scheduleStringDTO);
@@ -125,12 +125,12 @@ public class ScheduleController {
             if(scheduleDto != null){
                 log.error("The schedule is overLapped to "+scheduleDto);
                 System.out.println("The schedule is overLapped to "+scheduleDto);
-                return new ResponseEntity<ScheduleDTO>(scheduleDto,HttpStatus.OK);
+                return new ResponseEntity<>(scheduleDto,HttpStatus.OK);
             }
             else {
                 ScheduleDTO catchSchedule = scheduleService.addSchedule(scheduleDTO, doctorId, hospitalId);
                 log.info("Schedule has beed inserted sucessfully");
-                return new ResponseEntity<ScheduleDTO>(catchSchedule, HttpStatus.OK);
+                return new ResponseEntity<>(catchSchedule, HttpStatus.OK);
             }
 
 
@@ -143,15 +143,15 @@ public class ScheduleController {
         if(scheduleDTO1 != null  && (scheduleDTO1.getEndTime() != null || scheduleDTO1.getStartTime() != null) ){
 
             log.error("Schedule overLapped, Update schedule denied");
-            return new ResponseEntity<ScheduleDTO>(scheduleDTO1, HttpStatus.OK);
+            return new ResponseEntity<>(scheduleDTO1, HttpStatus.OK);
         }
 
         ScheduleDTO catchSchedule = scheduleService.updateSchedule(scheduleDTO);
         if(catchSchedule == null){
             log.error("Update schedule unsuccessful");
-            return new ResponseEntity<String>("Update schedule unsuccessful", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Update schedule unsuccessful", HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<ScheduleDTO>(catchSchedule, HttpStatus.OK);
+        return new ResponseEntity<>(catchSchedule, HttpStatus.OK);
 
 
     }

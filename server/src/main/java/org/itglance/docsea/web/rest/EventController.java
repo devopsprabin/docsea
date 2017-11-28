@@ -45,55 +45,55 @@ public class EventController {
             System.out.println("**************this is event dto*******************");
 
             if(eventDTO.getDates().before(d)){
-               return new ResponseEntity<String>("Invalid date", HttpStatus.BAD_REQUEST);
+               return new ResponseEntity<>("Invalid date", HttpStatus.BAD_REQUEST);
             }
             eventService.addEvent(eventDTO, Authorization);
-            return new ResponseEntity<String>("Inserted sucessfully", HttpStatus.OK);
+            return new ResponseEntity<>("Inserted sucessfully", HttpStatus.OK);
         } else {
-            return new ResponseEntity<String>("Event already exist", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Event already exist", HttpStatus.CONFLICT);
         }
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public ResponseEntity<?> listAllEvents() {
+    public ResponseEntity<List<Event>> listAllEvents() {
         List<Event> list = eventService.getAllValidEvents();
         if (list.isEmpty()) {
-            return new ResponseEntity<String>("There are no events",HttpStatus.NO_CONTENT);
+            return new ResponseEntity("There are no events",HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<Event>>(list, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 
     //returns all events of particular hospital
     @GetMapping(value = "/hospital")
-    public ResponseEntity<?> listAllEventsOfHospital(@RequestHeader String Authorization) {
+    public ResponseEntity<List<Event>> listAllEventsOfHospital(@RequestHeader String Authorization) {
         List<Event> list = eventService.getAllValidEventsOfHospital(Authorization);
         if (list.isEmpty()) {
-            return new ResponseEntity<String>("There is no events",HttpStatus.NO_CONTENT);
+            return new ResponseEntity("There is no events",HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<Event>>(list, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     //returns one event
     @GetMapping(value = "/{eventId}")
-    public ResponseEntity<?> listAllEvents(@RequestParam("eventId") Long eventId) {
+    public ResponseEntity<Event> listAllEvents(@RequestParam("eventId") Long eventId) {
         Event event = eventService.getEvent(eventId);
         if (event == null ) {
-            return new ResponseEntity<String>("There is no event of eventId: "+eventId,HttpStatus.NO_CONTENT);
+            return new ResponseEntity("There is no event of eventId: "+eventId,HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<Event>(event, HttpStatus.OK);
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateEvent( @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<String> updateEvent( @RequestBody EventDTO eventDTO) {
         if(eventDTO.getDates().before(d)){
-            return new ResponseEntity<String>("Invalid date",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid date",HttpStatus.BAD_REQUEST);
         }
         if (eventService.updateHospital(eventDTO)){
-           return new ResponseEntity<String>("Update successful", HttpStatus.OK);
+           return new ResponseEntity<>("Update successful", HttpStatus.OK);
         } else {
-            return new ResponseEntity<String>("Event doesn't exist", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Event doesn't exist", HttpStatus.CONFLICT);
         }
     }
 }

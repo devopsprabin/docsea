@@ -36,6 +36,6 @@ public class QualificationController {
         if(qualifications.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<QualificationDTO>>(qualifications, HttpStatus.OK);
+        return new ResponseEntity<>(qualifications, HttpStatus.OK);
     }
 }

@@ -23,31 +23,29 @@ public class DoctorSearchController {
     private DoctorSearchService doctorSearchService;
 
     @RequestMapping(value="/{searchString}", method = RequestMethod.GET)
-    public ResponseEntity<?> searchDoctor(@PathVariable String searchString){
+    public ResponseEntity<List<DoctorDTO>> searchDoctor(@PathVariable String searchString){
         System.out.println("********************search string***********************");
         System.out.println(searchString);
        List<DoctorDTO> doctors= doctorSearchService.findDoctor(searchString);
         System.out.println(doctors);
         if(doctors.isEmpty()){
             System.out.println("*********************doctor not found********************");
-            return  new ResponseEntity<String>("Doctor not found", HttpStatus.CONFLICT);
+            return  new ResponseEntity("Doctor not found", HttpStatus.CONFLICT);
         }
-       return new ResponseEntity<List<DoctorDTO>>(doctors,HttpStatus.OK);
+       return new ResponseEntity<>(doctors,HttpStatus.OK);
     }
 
     //Search all the doctor according to the hospital
     @GetMapping
-    public ResponseEntity<?> searchAllDoctorOfHospital(@RequestHeader String Authorization){
-        List<DoctorDTO> doctorDTOS = new ArrayList<>();
-        doctorDTOS = doctorSearchService.findAllDoctorsOfHospital(Authorization);
-        return new ResponseEntity<List<DoctorDTO>>(doctorDTOS, HttpStatus.OK);
+    public ResponseEntity<List<DoctorDTO>> searchAllDoctorOfHospital(@RequestHeader String Authorization){
+        List<DoctorDTO> doctorDTOS = doctorSearchService.findAllDoctorsOfHospital(Authorization);
+        return new ResponseEntity<>(doctorDTOS, HttpStatus.OK);
     }
 
     @GetMapping(value = "/quickSearch/{str}")
-    public ResponseEntity<?> quickSearch(@PathVariable("str") String str){
-        List<String> searchResults =new ArrayList<>();
-        searchResults = doctorSearchService.getStringListForSearch(str);
+    public ResponseEntity<List<String>> quickSearch(@PathVariable("str") String str){
+        List<String> searchResults = doctorSearchService.getStringListForSearch(str);
         System.out.println("------search result------");
-       return new ResponseEntity<List<String>>(searchResults, HttpStatus.OK);
+       return new ResponseEntity<>(searchResults, HttpStatus.OK);
     }
 }

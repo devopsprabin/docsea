@@ -70,7 +70,7 @@ public class DoctorController {
             }
             doctorDTO.setPhoto(photoName);
             if(doctorService.isDoctorExist(doctorDTO, hospitalId)){
-                return new ResponseEntity("Doctor already exists (You have already inserted doctor)", HttpStatus.CONFLICT);
+                return new ResponseEntity<>("Doctor already exists (You have already inserted doctor)", HttpStatus.CONFLICT);
             }
             System.out.println("****************--*********************");
             System.out.println(doctorDTO);
@@ -89,7 +89,7 @@ public class DoctorController {
     public ResponseEntity<List<DoctorDTO>> listAllDoctors() {
         List<DoctorDTO> list = doctorService.getAllDoctor();
         if (list.isEmpty()) {
-            return new ResponseEntity<List<DoctorDTO>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -101,7 +101,7 @@ public class DoctorController {
         if (doctorDTO==null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
+        return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
 
     }
 
@@ -113,7 +113,7 @@ public class DoctorController {
             HttpServletRequest request) throws MissingServletRequestPartException,IOException{
 
         System.out.println("***************** UPDATE DOCOTR ************************");
-        Doctor doctor1=new Doctor();
+//        Doctor doctor1=new Doctor();
         ObjectMapper objectMapper=new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try{
@@ -124,9 +124,9 @@ public class DoctorController {
                 doctorDTO.setPhoto(photoName);
             }
             if(!doctorService.isDoctorExist(doctorDTO.getId())){
-                return new ResponseEntity<String>(("Cannot find doctor in database."), HttpStatus.CONFLICT);
+                return new ResponseEntity<>(("Cannot find doctor in database."), HttpStatus.CONFLICT);
             }else if(!doctorService.validateNmcforUpdate(doctorDTO)){
-                return new ResponseEntity<String>(("Doctor with the nmcNumber "+doctorDTO.getNmcNumber()+" already exists"), HttpStatus.CONFLICT);
+                return new ResponseEntity<>(("Doctor with the nmcNumber "+doctorDTO.getNmcNumber()+" already exists"), HttpStatus.CONFLICT);
             }
             doctorService.updateDoctor(doctorDTO);
         }catch (JsonParseException e1) {
@@ -136,7 +136,7 @@ public class DoctorController {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        return new ResponseEntity<String>("Doctor updated", HttpStatus.OK);
+        return new ResponseEntity<>("Doctor updated", HttpStatus.OK);
 
     }
 

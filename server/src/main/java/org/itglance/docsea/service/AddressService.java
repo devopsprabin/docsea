@@ -42,88 +42,55 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public List<AddressDTO> getAllAddresses(){
+    public List<Address> getAllAddresses(){
 
-        List<Address> addressLists = addressRepository.findAll();
-        List<AddressDTO> addressDTOS = new ArrayList<>();
-        for(Address a: addressLists){
-            addressDTOS.add(new AddressDTO(a));
-        }
-        return addressDTOS;
+//        List<Address> addressLists =
+          return   addressRepository.findAll();
+//        List<AddressDTO> addressDTOS = new ArrayList<>();
+//        for(Address a: addressLists){
+//            addressDTOS.add(new AddressDTO(a));
+//        }
+//        return addressDTOS;
     }
 
-    public List<String> getAllCountries(){
+    public List<Country> getAllCountries(){
+        return countryRepository.findAll();
 
-        List<String> countryList = new ArrayList<>();
-
-        List<Country> countryListObj = countryRepository.findAll();
-        for(Country c : countryListObj){
-            countryList.add(c.getName());
-        }
-        System.out.println(countryList);
-        return countryList;
     }
 
-    public List<String> getAllZones(){
-        List<Zone> zoneListObj;
-        List<String> zoneList = new ArrayList<>();
+    public List<Zone> getAllZones(){
+        return zoneRepository.findAll();
 
-        zoneListObj = zoneRepository.findAll();
-        for(Zone zone: zoneListObj){
-            zoneList.add(zone.getName());
-        }
-        return zoneList;
     }
 
-    public List<String> getAllDistricts(){
-        List<District> districtListObj;
-        List<String> districtList = new ArrayList<>();
+    public List<District> getAllDistricts(){
 
-        districtListObj = districtRepository.findAll();
-        for(District district: districtListObj){
-            districtList.add(district.getName());
-        }
-        return districtList;
+        return districtRepository.findAll();
+
     }
 
-    public List<String> getAllCities(){
-        List<City> cityListObj;
-        List<String> cityList = new ArrayList<>();
+    public List<City> getAllCities(){
 
-        cityListObj = cityRepository.findAll();
-        for(City city: cityListObj){
-            cityList.add(city.getName());
-        }
-        return cityList;
+        return cityRepository.findAll();
+
+
     }
 
-    public List<String> getZonesFromCountry(String country){
+    public List<Zone> getZonesFromCountry(String country){
         Country countryObj = countryRepository.findByName(country);
-        List<Zone> zonesObjlist = zoneRepository.findAllByCountry(countryObj);
-        List<String> zonesList = new ArrayList<>();
-        for(Zone zone: zonesObjlist){
-            zonesList.add(zone.getName());
-        }
-        return zonesList;
+        return  zoneRepository.findAllByCountry(countryObj);
+
     }
 
-    public List<String> getDistrictFromZone(String zone){
+    public List<District> getDistrictFromZone(String zone){
         Zone zoneObj = zoneRepository.findByName(zone);
-        List<District> districtObjlist = districtRepository.findAllByZone(zoneObj);
-        List<String> districtsList = new ArrayList<>();
-        for(District district: districtObjlist){
-            districtsList.add(district.getName());
-        }
-        return districtsList;
+        return districtRepository.findAllByZone(zoneObj);
+
     }
 
-    public List<String> getCitiesFromDistrict(String district){
+    public List<City> getCitiesFromDistrict(String district){
         District districtObj = districtRepository.findByName(district);
-        List<City> cityObjList = cityRepository.findAllByDistrict(districtObj);
-        List<String> citiesList = new ArrayList<>();
-        for(City city: cityObjList){
-            citiesList.add(city.getName());
-        }
-        return citiesList;
+        return cityRepository.findAllByDistrict(districtObj);
+
     }
 }

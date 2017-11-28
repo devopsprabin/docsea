@@ -52,7 +52,7 @@ public class HospitalController {
                     " or lisence no. or usernme is already exist."), HttpStatus.CONFLICT);
         }
         hospitalService.registerHospital(hospitalDTO, userDTO);
-        return new ResponseEntity<HospitalDTO> (hospitalDTO, HttpStatus.OK);
+        return new ResponseEntity<> (hospitalDTO, HttpStatus.OK);
     }
 
     //-----------------Updating hospital------------------
@@ -64,19 +64,19 @@ public class HospitalController {
 
         if(!hospitalService.isHospitalExist(hospitalUserDTO.getId())){
             logger.error("Can't find hospital in the database");
-            return new ResponseEntity<String>(("Cannot find hospital in database. "), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(("Cannot find hospital in database. "), HttpStatus.CONFLICT);
         }else if(!hospitalService.validateUsernameForUpdate(hospitalUserDTO.getUser())){
             logger.error("Hospital with the Username "+hospitalUserDTO.getUser().getUsername()+" already exist");
-            return new ResponseEntity<String>(("Hospital with the Username "+hospitalUserDTO.getUser().getUsername()+" already exist"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(("Hospital with the Username "+hospitalUserDTO.getUser().getUsername()+" already exist"), HttpStatus.CONFLICT);
         }else if(!hospitalService.validateHospitalNameForUpdate(hospitalUserDTO.getHospital())){
             logger.error("Hospital with the name "+hospitalUserDTO.getHospital().getName()+" already exist");
-            return new ResponseEntity<String>(("Hospital with the name already "+hospitalUserDTO.getHospital().getName()+" exist"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(("Hospital with the name already "+hospitalUserDTO.getHospital().getName()+" exist"), HttpStatus.CONFLICT);
         }else if(!hospitalService.validateLisenceForUpdate(hospitalUserDTO.getHospital())){
             logger.error("Hospital with the Lisence number "+hospitalUserDTO.getHospital().getLisenceNo()+" already exist");
-            return new ResponseEntity<String>(("Hospital with the Lisence number "+hospitalUserDTO.getHospital().getLisenceNo()+" already exist"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(("Hospital with the Lisence number "+hospitalUserDTO.getHospital().getLisenceNo()+" already exist"), HttpStatus.CONFLICT);
         }else if(!hospitalService.validateRegForUpdate(hospitalUserDTO.getHospital())){
             logger.error("Hospital with the Registration number "+hospitalUserDTO.getHospital().getRegistrationNo()+" already exist");
-            return new ResponseEntity<String>(("Hospital with the Registration number "+hospitalUserDTO.getHospital().getRegistrationNo()+" already exist"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(("Hospital with the Registration number "+hospitalUserDTO.getHospital().getRegistrationNo()+" already exist"), HttpStatus.CONFLICT);
         }
 
         hospitalService.updateHospital(hospitalUserDTO);
@@ -92,22 +92,22 @@ public class HospitalController {
     public ResponseEntity<List<HospitalUserDTO>> listAllUsers() {
          List<HospitalUserDTO> list = hospitalService.getAllHospitalUser();
         if(list.isEmpty()){
-            return new ResponseEntity<List<HospitalUserDTO>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity(list, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     //----------- display hospital by username-------
     @GetMapping(value = "/hospital/{username}")
     public ResponseEntity<?> getHospitalUserByU(@PathVariable("username") String username){
         HospitalUserDTO hospitalUserDTOs = hospitalService.getHospitalByUsername(username);
-        return new ResponseEntity<HospitalUserDTO>(hospitalUserDTOs ,HttpStatus.OK);
+        return new ResponseEntity<>(hospitalUserDTOs ,HttpStatus.OK);
     }
 
     //----------- display hospital by hospital id-------
     @GetMapping(value = "/hospitalId/{id}")
     public ResponseEntity<?> getHospitalUserById(@PathVariable("id") Long id){
         HospitalUserDTO hospitalUserDTOS = hospitalService.getHospitalById(id);
-        return new ResponseEntity<HospitalUserDTO>(hospitalUserDTOS ,HttpStatus.OK);
+        return new ResponseEntity<>(hospitalUserDTOS ,HttpStatus.OK);
     }
 }

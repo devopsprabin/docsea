@@ -33,6 +33,6 @@ public class SpecialityController {
     @GetMapping
     public ResponseEntity<?> getAllSpeciality(){
         List<SpecialityDTO> specialities = specialityService.getAllSpeciality();
-        return new ResponseEntity<List<SpecialityDTO>>(specialities, HttpStatus.OK);
+        return new ResponseEntity<>(specialities, HttpStatus.OK);
     }
 }

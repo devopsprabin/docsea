@@ -2,6 +2,8 @@ package org.itglance.docsea.web.rest;
 
 import org.itglance.docsea.domain.BloodGroup;
 import org.itglance.docsea.repository.BloodGroupRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,13 +23,21 @@ import java.util.List;
 public class BloodGroupController {
 
     private BloodGroupRepository bloodGroupRepository;
+    public static final Logger logger = LoggerFactory.getLogger(HospitalController.class);
+
 
     public BloodGroupController(BloodGroupRepository bloodGroupRepository) {
         this.bloodGroupRepository = bloodGroupRepository;
     }
 
     @GetMapping
-    public ResponseEntity<?> getBloodGroup(){
-        return new ResponseEntity<List<BloodGroup>>(bloodGroupRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<BloodGroup>> getBloodGroup(){
+
+        List<BloodGroup> bloodGroupList = bloodGroupRepository.findAll();
+        if(bloodGroupList == null){
+            logger.error("There is no records in city table.");
+            return new ResponseEntity(("There is no records in city table."), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(bloodGroupList, HttpStatus.OK);
     }
 }
