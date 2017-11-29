@@ -31,7 +31,7 @@ public class SpecialityController {
     SpecialityService specialityService;
 
     @GetMapping
-    public ResponseEntity<?> getAllSpeciality(){
+    public ResponseEntity<List<SpecialityDTO>> getAllSpeciality(){
         List<SpecialityDTO> specialities = specialityService.getAllSpeciality();
         return new ResponseEntity<>(specialities, HttpStatus.OK);
     }

@@ -37,7 +37,7 @@ public class BloodGroupController {
         List<BloodGroup> bloodGroupList = bloodGroupRepository.findAll();
         if(bloodGroupList == null){
             logger.error("There is no records in city table.");
-            return new ResponseEntity(("There is no records in city table."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(bloodGroupList, HttpStatus.OK);
     }

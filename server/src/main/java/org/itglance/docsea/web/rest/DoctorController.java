@@ -53,13 +53,15 @@ public class DoctorController {
     @Autowired
     private SessionService sessionService;
 
+    private String message;
+
     private String defaultPhoto = "doctor.png";
 
     public static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
 
     //Adding doctor
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addDoctor(
+    public ResponseEntity<String> addDoctor(
             @RequestParam(required = false) MultipartFile file,
             @RequestParam String doctor,
             MultipartHttpServletRequest request,
@@ -79,7 +81,8 @@ public class DoctorController {
             doctorDTO.setPhoto(photoName);
 
             if(doctorService.isDoctorExist(doctorDTO, hospitalId)){
-                return new ResponseEntity<>("Doctor already exists (You have already inserted doctor)", HttpStatus.CONFLICT);
+                message = "Doctor already exists (You have already inserted doctor)";
+                return new ResponseEntity<>(message, HttpStatus.CONFLICT);
 
             }
             logger.info("*****doctorDTO*****");
@@ -92,7 +95,8 @@ public class DoctorController {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        return new ResponseEntity("Doctor inserted", HttpStatus.OK);
+        message= "Doctor inserted";
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @RequestMapping( method = RequestMethod.GET)
@@ -118,7 +122,7 @@ public class DoctorController {
 
     //Updating Doctor
     @PutMapping
-    public ResponseEntity<?> updateDoctor(
+    public ResponseEntity<String> updateDoctor(
             @RequestParam(required = false) MultipartFile file,
             @RequestParam(required = true) String doctor,
             HttpServletRequest request) throws MissingServletRequestPartException, IOException {
@@ -136,9 +140,11 @@ public class DoctorController {
                 doctorDTO.setPhoto(photoName);
             }
             if(!doctorService.isDoctorExist(doctorDTO.getId())){
-                return new ResponseEntity<>(("Cannot find doctor in database."), HttpStatus.CONFLICT);
+                message="Cannot find doctor in database.";
+                return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
             }else if(!doctorService.validateNmcforUpdate(doctorDTO)){
-                return new ResponseEntity<>(("Doctor with the nmcNumber "+doctorDTO.getNmcNumber()+" already exists"), HttpStatus.CONFLICT);
+                message="Doctor with the nmcNumber "+doctorDTO.getNmcNumber()+" already exists";
+                return new ResponseEntity<>(message, HttpStatus.NOT_ACCEPTABLE);
 
             }
             doctorService.updateDoctor(doctorDTO);
@@ -149,7 +155,8 @@ public class DoctorController {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        return new ResponseEntity<>("Doctor updated", HttpStatus.OK);
+        message="Doctor updated";
+        return new ResponseEntity<>(message, HttpStatus.OK);
 
     }
 

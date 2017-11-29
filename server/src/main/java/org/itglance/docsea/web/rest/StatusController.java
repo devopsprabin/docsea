@@ -46,7 +46,7 @@ public class StatusController {
     }
 
     @PutMapping(value = "/toggleHospital/{userId}")
-    public ResponseEntity<?> toggleHospitalStatus(@PathVariable("userId") Long userId){
+    public ResponseEntity<HospitalUserDTO> toggleHospitalStatus(@PathVariable("userId") Long userId){
         HospitalUserDTO hospitalUserDTO = statusService.toggleHospitalStatus(userId);
         log.info("hospital userid: "+userId);
         log.info("hospital id: "+userId);
@@ -54,7 +54,7 @@ public class StatusController {
     }
 
     @PutMapping(value = "/toggleDoctor/{doctorId}")
-    public ResponseEntity<?> toggleDoctorStatus(@RequestHeader String Authorization, @PathVariable("doctorId") Long docotorId){
+    public ResponseEntity<StatusDTO> toggleDoctorStatus(@RequestHeader String Authorization, @PathVariable("doctorId") Long docotorId){
         log.info("------------------doctor status toggle called");
         HospitalDoctorDTO hospitalDoctorDTO = statusService.toggleDoctorStatus(docotorId, Authorization);
 

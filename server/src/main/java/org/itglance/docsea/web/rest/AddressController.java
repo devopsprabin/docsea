@@ -34,7 +34,7 @@ public class AddressController {
         if(addressList == null){
 
             logger.error("There is no records in address table.");
-            return new ResponseEntity("There is no records in address table.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(addressList, HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public class AddressController {
 
         if(countries == null){
             logger.error("There is no records in country table.");
-            return new ResponseEntity("There is no records in country table.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(countries, HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class AddressController {
 
         if(zones == null){
             logger.error("There is no records in zone table.");
-            return new ResponseEntity("There is no records in zone table.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(zones, HttpStatus.OK);
     }
@@ -72,7 +72,7 @@ public class AddressController {
 
         if(districts == null){
             logger.error("There is no records in district table.");
-            return new ResponseEntity("There is no records in district table.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(districts, HttpStatus.OK);
     }
@@ -85,7 +85,7 @@ public class AddressController {
 
         if(cities == null){
             logger.error("There is no records in city table.");
-            return new ResponseEntity("There is no records in city table.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
@@ -98,21 +98,21 @@ public class AddressController {
         List<Zone> zones = addressService.getZonesFromCountry(country);
         if(zones == null){
             logger.error("There is no records in zone table.");
-            return new ResponseEntity(("There is no records in zone table."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity(zones, HttpStatus.OK);
+        return new ResponseEntity<>(zones, HttpStatus.OK);
     }
 
     @GetMapping(value = "/addresses/districts/{zone}")
-    public ResponseEntity<?> getDistrictsFromZone(@PathVariable("zone") String zone){
+    public ResponseEntity<List<District>> getDistrictsFromZone(@PathVariable("zone") String zone){
         logger.info(zone);
 
         List<District> districts = addressService.getDistrictFromZone(zone);
         if(districts == null){
             logger.error("There is no records in district table.");
-            return new ResponseEntity(("There is no records in district table."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity(districts, HttpStatus.OK);
+        return new ResponseEntity<>(districts, HttpStatus.OK);
     }
 
     @GetMapping(value = "/addresses/cities/{district}")
@@ -122,8 +122,8 @@ public class AddressController {
             List<City> cities = addressService.getCitiesFromDistrict(district);
             if(cities == null){
                 logger.error("There is no records in city table.");
-                return new ResponseEntity(("There is no records in city table."), HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity(cities, HttpStatus.OK);
+            return new ResponseEntity<>(cities, HttpStatus.OK);
         }
 }

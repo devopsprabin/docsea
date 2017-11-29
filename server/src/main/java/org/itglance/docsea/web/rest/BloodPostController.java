@@ -2,7 +2,6 @@ package org.itglance.docsea.web.rest;
 
 import io.swagger.annotations.ApiParam;
 import org.itglance.docsea.domain.BloodPost;
-import org.itglance.docsea.repository.BloodPostRepository;
 import org.itglance.docsea.restutil.PaginationUtil;
 import org.itglance.docsea.service.BloodPostService;
 import org.itglance.docsea.service.dto.BloodPostDTO;
@@ -31,13 +30,34 @@ public class BloodPostController {
     @Autowired
     BloodPostService bloodPostService;
 
-    BloodPostRepository bloodPostRepository;
+//    BloodPostRepository bloodPostRepository;
 
-    public BloodPostController(BloodPostRepository bloodPostRepository) {
-        this.bloodPostRepository = bloodPostRepository;
-    }
+
+    private String message;
+
+//    public BloodPostController(BloodPostRepository bloodPostRepository) {
+//        this.bloodPostRepository = bloodPostRepository;
+//    }
 
     public static final Logger logger = LoggerFactory.getLogger(BloodPostController.class);
+
+
+    @PostMapping
+    public ResponseEntity<String> postBlood(@RequestBody BloodPostDTO bloodPostDTO) throws ParseException {
+        logger.info("POST bloodpost api called  ");
+        logger.info(bloodPostDTO.toString());
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+        Date d = dateFormatter.parse(dateFormatter.format(new Date() ));
+        if(bloodPostDTO.getDeadline().before(d)){
+            message = "Deadline is not a valid date";
+        }else {
+            bloodPostService.postBlood(bloodPostDTO);
+
+            message= "Inserted sucessfully";
+        }
+        return new ResponseEntity<>(message,HttpStatus.OK);
+    }
 
 
     @GetMapping
@@ -48,21 +68,6 @@ public class BloodPostController {
                 .generatePaginationHttpHeaders(bloodPostList, "/api/bloodPost");
         return new ResponseEntity<>(bloodPostList.getContent(), headers, HttpStatus.OK);
     }
-
-    @PostMapping
-    public ResponseEntity<?> postBlood(@RequestBody BloodPostDTO bloodPostDTO) throws ParseException {
-        logger.info("POST bloodpost api called  ");
-        logger.info(bloodPostDTO.toString());
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
-        Date d = dateFormatter.parse(dateFormatter.format(new Date() ));
-        if(bloodPostDTO.getDeadline().before(d)){
-            return new ResponseEntity<>("Deadline is not a valid date",HttpStatus.OK);
-        }
-        bloodPostService.postBlood(bloodPostDTO);
-        return new ResponseEntity<>("Inserted sucessfully",HttpStatus.OK);
-    }
-
 //    @GetMapping
 //    public ResponseEntity<?> getBloodPost(Pageable page) throws ParseException {
 //        Page<BloodPost> bloodPost = bloodPostService.getAllBlood(page);
@@ -74,15 +79,15 @@ public class BloodPostController {
 //
 //    }
 
-    @GetMapping
-    public ResponseEntity<List<BloodPost>> getBloodPost() {
-        List<BloodPost> bloodPostDTOS=bloodPostService.getAllBlood();
+//    @GetMapping
+//    public ResponseEntity<List<BloodPost>> getBloodPost() {
+//        List<BloodPost> bloodPostDTOS=bloodPostService.getAllBlood();
 //        if(bloodPostDTOS == null){
-//            return new ResponseEntity<String>("their are no blood posts",HttpStatus.NO_CONTENT);
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //        }
-        System.out.println(bloodPostDTOS);
-        return new ResponseEntity<>(bloodPostDTOS,HttpStatus.OK) ;
-
-    }
+//        System.out.println(bloodPostDTOS);
+//        return new ResponseEntity<>(bloodPostDTOS,HttpStatus.OK) ;
+//
+//    }
 
 }

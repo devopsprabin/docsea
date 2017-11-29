@@ -32,7 +32,7 @@ public class HospitalDoctorController {
     private final static Logger logger= LoggerFactory.getLogger(HospitalDoctorController.class);
 
     @GetMapping(value = "/status/{doctorId}")
-    public ResponseEntity<?> getStatusOfDoctor(@RequestHeader String Authorization, @PathVariable("doctorId") Long doctorId){
+    public ResponseEntity<StatusDTO> getStatusOfDoctor(@RequestHeader String Authorization, @PathVariable("doctorId") Long doctorId){
 
         StatusDTO statusDTO = hospitalDoctorService.getStatusFromHospitalAndDoctor(doctorId, Authorization);
         logger.info("**************status of doctor**********");
@@ -42,27 +42,27 @@ public class HospitalDoctorController {
     }
 
     @GetMapping(value = "/{docId}")
-    public ResponseEntity<?> gethospitals(@PathVariable("docId") Long docId){
+    public ResponseEntity<List<HospitalDTO>> gethospitals(@PathVariable("docId") Long docId){
         List<HospitalDTO> hospitalDTOS = hospitalDoctorService.getHospitals(docId);
         return  new ResponseEntity<>(hospitalDTOS, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<?> getHospitalDoctors(@RequestHeader String Authorization){
+    public ResponseEntity<List<DoctorDTO>> getHospitalDoctors(@RequestHeader String Authorization){
         Long hospitalId=sessionService.checkSession(Authorization).getHospitalId();
         List<DoctorDTO> doctors=hospitalDoctorService.getDoctors(hospitalId);
         if(doctors == null){
-            return new ResponseEntity<>("There is no doctor registered in your hospital",HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(doctors,HttpStatus.OK);
     }
 
     @GetMapping(value = "/doctorListWithStatus")
-    public ResponseEntity<?> getHospitalDoctorsWithStatus(@RequestHeader String Authorization){
+    public ResponseEntity<List<DoctorStatus>> getHospitalDoctorsWithStatus(@RequestHeader String Authorization){
         Long hospitalId=sessionService.checkSession(Authorization).getHospitalId();
-        List<DoctorStatus> doctors=hospitalDoctorService.getDoctorStatus(hospitalId,Authorization);
+        List<DoctorStatus> doctors = hospitalDoctorService.getDoctorStatus(hospitalId,Authorization);
         if(doctors == null){
-            return new ResponseEntity<>("There is no doctor registered in your hospital",HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(doctors,HttpStatus.OK);
     }

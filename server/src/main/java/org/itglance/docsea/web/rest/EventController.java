@@ -35,6 +35,9 @@ public class EventController {
     @Autowired
     private  EventService eventService;
 
+
+    private String message;
+
     private final static Logger logger= LoggerFactory.getLogger(EventController.class);
 
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
@@ -53,20 +56,21 @@ public class EventController {
             logger.info("**************this is event dto*******************");
 
             if(eventDTO.getDates().before(d)){
-               return new ResponseEntity<>("Invalid date", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Invalid date", HttpStatus.BAD_REQUEST);
             }
             eventService.addEvent(eventDTO, Authorization);
-            return new ResponseEntity<>("Inserted sucessfully", HttpStatus.OK);
+            message="Inserted sucessfully";
         } else {
-            return new ResponseEntity<>("Event already exist", HttpStatus.CONFLICT);
+            message="Event already exist";
         }
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<Event>> listAllEvents() {
         List<Event> list = eventService.getAllValidEvents();
         if (list.isEmpty()) {
-            return new ResponseEntity("There are no events",HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
 
@@ -78,7 +82,7 @@ public class EventController {
     public ResponseEntity<List<Event>> listAllEventsOfHospital(@RequestHeader String Authorization) {
         List<Event> list = eventService.getAllValidEventsOfHospital(Authorization);
         if (list.isEmpty()) {
-            return new ResponseEntity("There is no events",HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -88,7 +92,7 @@ public class EventController {
     public ResponseEntity<Event> listAllEvents(@RequestParam("eventId") Long eventId) {
         Event event = eventService.getEvent(eventId);
         if (event == null ) {
-            return new ResponseEntity("There is no event of eventId: "+eventId,HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(event, HttpStatus.OK);
     }

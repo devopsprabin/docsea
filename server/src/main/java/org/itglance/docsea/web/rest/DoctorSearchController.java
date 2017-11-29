@@ -34,7 +34,7 @@ public class DoctorSearchController {
         System.out.println(doctors);
         if(doctors.isEmpty()){
             System.out.println("*********************doctor not found********************");
-            return  new ResponseEntity("Doctor not found", HttpStatus.CONFLICT);
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         }
         logger.info(searchString);

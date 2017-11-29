@@ -33,7 +33,7 @@ public class HospitalController {
 
     //------------------------hospital resitration-------//
     @RequestMapping(value = "/hospital", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@Valid @RequestBody HospitalUserDTO hospitalUser)
+    public ResponseEntity<String> register(@Valid @RequestBody HospitalUserDTO hospitalUser)
     {
 
         HospitalDTO hospitalDTO = new HospitalDTO(hospitalUser.getHospital());
@@ -43,21 +43,23 @@ public class HospitalController {
 
         if(hospitalDTO.getAddress().getCity().getName() == null){
         	 logger.error(" City name should not be null");
-             return new ResponseEntity(("Unable to register Hospital, City name should,nt be null"), HttpStatus.CONFLICT);
+             return new ResponseEntity<>(("Unable to register Hospital, City name should,nt be null"), HttpStatus.NOT_ACCEPTABLE);
 
         }
         else if(hospitalService.isHospitalExist(hospitalDTO, userDTO)){
             logger.error(" Hospital already exist");
-            return new ResponseEntity(("Unable to register Hospital. A hospital with registration no. or hospital name" +
-                    " or lisence no. or usernme is already exist."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(("Unable to register Hospital. Duplicate entry."), HttpStatus.CONFLICT);
+//            A hospital with registration no. or hospital name" +" or lisence no. or usernme is already exist
         }
         hospitalService.registerHospital(hospitalDTO, userDTO);
-        return new ResponseEntity<> (hospitalDTO, HttpStatus.OK);
+        return new ResponseEntity<> ("Inserted successfully.", HttpStatus.ACCEPTED);
+
+//        return new ResponseEntity<> (hospitalDTO, HttpStatus.OK);
     }
 
     //-----------------Updating hospital------------------
    @PutMapping(value = "/hospital")
-    public ResponseEntity<?> updateHospitalUser(@RequestBody HospitalUserDTO hospitalUserDTO){
+    public ResponseEntity<String> updateHospitalUser(@RequestBody HospitalUserDTO hospitalUserDTO){
 
         logger.info("Updating Hospital !!!"+hospitalUserDTO);
         System.out.println(hospitalUserDTO);
