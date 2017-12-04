@@ -61,12 +61,12 @@ public class BloodPostController {
 
 
     @GetMapping
-    public ResponseEntity<List<BloodPost>> getBloodPost(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<BloodPostDTO>> getBloodPost(@ApiParam Pageable pageable) {
         logger.info("GET bloodPost api called  ");
-        Page<BloodPost> bloodPostList = bloodPostService.findAll(pageable);
+        Page<BloodPostDTO> bloodPostDTOPage = bloodPostService.findAll(pageable);
         HttpHeaders headers = PaginationUtil
-                .generatePaginationHttpHeaders(bloodPostList, "/api/bloodPost");
-        return new ResponseEntity<>(bloodPostList.getContent(), headers, HttpStatus.OK);
+                .generatePaginationHttpHeaders(bloodPostDTOPage, "/api/bloodPost");
+        return new ResponseEntity<>(bloodPostDTOPage.getContent(), headers, HttpStatus.OK);
     }
 //    @GetMapping
 //    public ResponseEntity<?> getBloodPost(Pageable page) throws ParseException {

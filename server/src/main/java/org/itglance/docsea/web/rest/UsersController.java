@@ -33,7 +33,8 @@ public class UsersController {
     public ResponseEntity<Users> createUser(@RequestBody UsersDTO usersDTO) throws URISyntaxException {
         log.info("user information " +usersDTO.toString());
         Users newUser = usersService.createUser(usersDTO);
-        return ResponseEntity.created(new URI("/api/register" + newUser.getLogin()))
+        return ResponseEntity
+                .created(new URI("/api/register" + newUser.getLogin()))
                 .headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin()))
                 .body(newUser);
     }

@@ -13,6 +13,7 @@ import org.itglance.docsea.repository.ContactRepository;
 import org.itglance.docsea.service.dto.BloodPostDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,8 @@ public class BloodPostService  {
 
     @Autowired
     BloodGroupService bloodGroupService;
+
+    private BloodPostDTO bloodPostDTO;
 
     private final BloodPostRepository bloodPostRepository;
     private final ContactRepository contactRepository;
@@ -53,12 +56,13 @@ public class BloodPostService  {
 //        return bloodPosts;
 //    }
 
-    public List<BloodPost> getAllBlood(){
-        List<BloodPost> bloodPostDTOS=new ArrayList<>();
+    public List<BloodPostDTO> getAllBlood(){
+        List<BloodPostDTO> bloodPostDTOS = new ArrayList<>();
         List<BloodPost> bloodPosts=bloodPostRepository.getBloodIndescending();
         for(BloodPost bloodPost: bloodPosts){
             if(bloodPost.getDeadline().after(d) || bloodPost.getDeadline().equals(d))
-                bloodPostDTOS.add(bloodPost);
+                bloodPostDTO = new BloodPostDTO(bloodPost);
+                bloodPostDTOS.add(bloodPostDTO);
         }
         return bloodPostDTOS;
     }
@@ -73,7 +77,7 @@ public class BloodPostService  {
         bloodPost.setLocation(bloodPostDTO.getLocation());
 
         BloodGroup bloodGroup=new BloodGroup();
-        bloodGroup = bloodGroupService.getBloodGroup(bloodPostDTO.getBloodGroup().getBloodGroup());
+        bloodGroup = bloodGroupService.getBloodGroup(bloodPostDTO.getGroup().getBloodGroup());
         System.out.println("****************this is blood group");
         System.out.println(bloodGroup.toString());
         System.out.println("****************this is blood group");
@@ -87,8 +91,18 @@ public class BloodPostService  {
     }
 
 
-    public Page<BloodPost> findAll(Pageable pageable) {
-        return bloodPostRepository.findAll(pageable);
+    public Page<BloodPostDTO> findAll(Pageable pageable) {
+        List<BloodPostDTO> bloodPostDTOList = new ArrayList<>();
+        Page<BloodPost> bloodPosts=bloodPostRepository.findAll(pageable);
+        for(BloodPost bloodPost: bloodPosts){
+            if(bloodPost.getDeadline().after(d) || bloodPost.getDeadline().equals(d)){
+                bloodPostDTO = new BloodPostDTO(bloodPost);
+                bloodPostDTOList.add(bloodPostDTO);
+            }
+
+        }
+        return new PageImpl<>(bloodPostDTOList);
+//        return bloodPostRepository.findAll(pageable);
     }
 
 

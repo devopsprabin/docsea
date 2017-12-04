@@ -1,5 +1,6 @@
 package org.itglance.docsea.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.itglance.docsea.domain.District;
 import org.itglance.docsea.domain.Zone;
 
@@ -9,7 +10,10 @@ import org.itglance.docsea.domain.Zone;
 public class DistrictDTO {
     private Long id;
     private String name;
+
+    @JsonIgnore
     private Zone zone;
+    private String zone_name;
 
     public DistrictDTO() {
     }
@@ -18,6 +22,7 @@ public class DistrictDTO {
         this.id = id;
         this.name = name;
         this.zone = zone;
+        this.zone_name = zone.getName();
     }
 
     public DistrictDTO(District district){
@@ -34,6 +39,10 @@ public class DistrictDTO {
 
     public Zone getZone() {
         return zone;
+    }
+
+    public String getZone_name() {
+        return zone_name;
     }
 
     @Override

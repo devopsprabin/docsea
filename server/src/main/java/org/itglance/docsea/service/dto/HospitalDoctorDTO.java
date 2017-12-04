@@ -1,5 +1,6 @@
 package org.itglance.docsea.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.itglance.docsea.domain.Doctor;
 import org.itglance.docsea.domain.Hospital;
 import org.itglance.docsea.domain.HospitalDoctor;
@@ -13,7 +14,10 @@ public class HospitalDoctorDTO {
     private Long id;
     private Hospital hospital;
     private Doctor doctor;
+
+    @JsonIgnore
     private Status status;
+    private String doc_status;
 
     public HospitalDoctorDTO(){
 
@@ -24,6 +28,7 @@ public class HospitalDoctorDTO {
         this.hospital = hospital;
         this.doctor = doctor;
         this.status = status;
+        this.doc_status = status.getStatus();
     }
 
     public HospitalDoctorDTO(HospitalDoctor hospitalDoctor){

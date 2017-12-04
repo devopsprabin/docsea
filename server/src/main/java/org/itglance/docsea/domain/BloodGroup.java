@@ -1,5 +1,7 @@
 package org.itglance.docsea.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 @Entity
 
 public class BloodGroup {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

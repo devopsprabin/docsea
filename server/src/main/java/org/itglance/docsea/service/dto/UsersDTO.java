@@ -1,5 +1,8 @@
 package org.itglance.docsea.service.dto;
 
+import org.itglance.docsea.domain.User;
+import org.itglance.docsea.domain.Users;
+
 import java.util.Set;
 
 public class UsersDTO {
@@ -9,7 +12,6 @@ public class UsersDTO {
     private String password;
     private boolean activated = false;
     private Set<String> authorities;
-
 
     public Long getId() {
         return id;

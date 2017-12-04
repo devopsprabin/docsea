@@ -30,8 +30,8 @@ public class UserController {
     @PostMapping(value = "/login")
 
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO){
-        System.out.println("******************* LOGIN ********************");
-        System.out.println(userDTO.toString());
+//        System.out.println("******************* LOGIN ********************");
+//        System.out.println(userDTO.toString());
         logger.info("Validating username and password");
         SessionDTO sessionDTO = userService.validateLogin(userDTO);
         if(sessionDTO == null){

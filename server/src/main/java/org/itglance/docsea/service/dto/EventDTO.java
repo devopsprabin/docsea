@@ -12,6 +12,8 @@ public class EventDTO {
 
     private Long id;
     private String name;
+
+
     private Hospital hospital;
     private String description;
     private Date dates;

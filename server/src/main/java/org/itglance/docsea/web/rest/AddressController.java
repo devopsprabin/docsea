@@ -2,7 +2,7 @@ package org.itglance.docsea.web.rest;
 
 import org.itglance.docsea.domain.*;
 import org.itglance.docsea.service.AddressService;
-import org.itglance.docsea.service.dto.AddressDTO;
+import org.itglance.docsea.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +27,22 @@ public class AddressController {
     public static final Logger logger = LoggerFactory.getLogger(AddressController.class);
 
     @GetMapping(value = "/addresses")
-    public ResponseEntity<List<Address>> getAddresses( )
+    public ResponseEntity<List<AddressDTO>> getAddresses( )
     {
         logger.info("get addresses api called  ");
-        List<Address> addressList = addressService.getAllAddresses();
-        if(addressList == null){
+        List<AddressDTO> addressDtoList = addressService.getAllAddresses();
+        if(addressDtoList == null){
 
             logger.error("There is no records in address table.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(addressList, HttpStatus.OK);
+        return new ResponseEntity<>(addressDtoList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/addresses/countries")
-    public ResponseEntity<List<Country>> getCountries()
+    public ResponseEntity<List<CountryDTO>> getCountries()
     {
-        List<Country> countries = addressService.getAllCountries();
+        List<CountryDTO> countries = addressService.getAllCountries();
 
         if(countries == null){
             logger.error("There is no records in country table.");
@@ -52,10 +52,10 @@ public class AddressController {
     }
 
     @GetMapping(value = "/addresses/zones")
-    public ResponseEntity<List<Zone>> getZones()
+    public ResponseEntity<List<ZoneDTO>> getZones()
     {
         logger.info("GET addresses/zones api called  ");
-        List<Zone> zones = addressService.getAllZones();
+        List<ZoneDTO> zones = addressService.getAllZones();
 
         if(zones == null){
             logger.error("There is no records in zone table.");
@@ -65,10 +65,10 @@ public class AddressController {
     }
 
     @GetMapping(value = "/addresses/districts")
-    public ResponseEntity<List<District>> getDistricts()
+    public ResponseEntity<List<DistrictDTO>> getDistricts()
     {
         logger.info("GET addresses/districts api called  ");
-        List<District> districts = addressService.getAllDistricts();
+        List<DistrictDTO> districts = addressService.getAllDistricts();
 
         if(districts == null){
             logger.error("There is no records in district table.");
@@ -78,10 +78,10 @@ public class AddressController {
     }
 
     @GetMapping(value = "/addresses/cities")
-    public ResponseEntity<List<City>> getCities()
+    public ResponseEntity<List<CityDTO>> getCities()
     {
         logger.info("GET addresses/districts api called  ");
-        List<City> cities = addressService.getAllCities();
+        List<CityDTO> cities = addressService.getAllCities();
 
         if(cities == null){
             logger.error("There is no records in city table.");
@@ -91,11 +91,11 @@ public class AddressController {
     }
 
     @GetMapping(value = "/addresses/zones/{country}")
-    public ResponseEntity<List<Zone>> getZonesFromCountry(@PathVariable("country") String country){
+    public ResponseEntity<List<ZoneDTO>> getZonesFromCountry(@PathVariable("country") String country){
         logger.info("Country details");
         logger.info(country);
 
-        List<Zone> zones = addressService.getZonesFromCountry(country);
+        List<ZoneDTO> zones = addressService.getZonesFromCountry(country);
         if(zones == null){
             logger.error("There is no records in zone table.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -104,10 +104,10 @@ public class AddressController {
     }
 
     @GetMapping(value = "/addresses/districts/{zone}")
-    public ResponseEntity<List<District>> getDistrictsFromZone(@PathVariable("zone") String zone){
+    public ResponseEntity<List<DistrictDTO>> getDistrictsFromZone(@PathVariable("zone") String zone){
         logger.info(zone);
 
-        List<District> districts = addressService.getDistrictFromZone(zone);
+        List<DistrictDTO> districts = addressService.getDistrictFromZone(zone);
         if(districts == null){
             logger.error("There is no records in district table.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -116,10 +116,10 @@ public class AddressController {
     }
 
     @GetMapping(value = "/addresses/cities/{district}")
-        public ResponseEntity<List<City>> getCitiesFromDistrict(@PathVariable("district") String district){
+        public ResponseEntity<List<CityDTO>> getCitiesFromDistrict(@PathVariable("district") String district){
             logger.info(district);
 
-            List<City> cities = addressService.getCitiesFromDistrict(district);
+            List<CityDTO> cities = addressService.getCitiesFromDistrict(district);
             if(cities == null){
                 logger.error("There is no records in city table.");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

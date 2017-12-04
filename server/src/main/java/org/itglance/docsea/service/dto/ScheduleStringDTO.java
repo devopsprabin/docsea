@@ -1,5 +1,6 @@
 package org.itglance.docsea.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.itglance.docsea.domain.Days;
 import org.itglance.docsea.domain.Schedule;
 
@@ -12,7 +13,10 @@ public class ScheduleStringDTO {
     private Long id;
     private String startTime;
     private String endTime;
+
+    @JsonIgnore
     private Days days;
+    private String day;
 
 
     public ScheduleStringDTO() {
@@ -25,6 +29,7 @@ public class ScheduleStringDTO {
         this.startTime = startTime;
         this.endTime = endTime;
         this.days = days;
+        this.day = days.getDay();
     }
 
     public void setId(Long id) {
@@ -57,8 +62,12 @@ public class ScheduleStringDTO {
 
 
     public Days getDays() {
-        return days;}
+        return days;
+    }
 
+    public String getDay() {
+        return day;
+    }
 
     @Override
     public String toString() {
