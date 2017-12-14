@@ -1,5 +1,8 @@
 package org.itglance.docsea.web.rest;
 
+import org.itglance.docsea.config.CryptoUtil;
+import org.itglance.docsea.domain.User;
+import org.itglance.docsea.jwt.JwtUser;
 import org.itglance.docsea.service.SessionService;
 import org.itglance.docsea.service.UserService;
 import org.itglance.docsea.service.dto.SessionDTO;
@@ -33,18 +36,20 @@ public class UserController {
         System.out.println("******************* LOGIN ********************");
         System.out.println(userDTO.toString());
         logger.info("Validating username and password");
+
         SessionDTO sessionDTO = userService.validateLogin(userDTO);
+
         if(sessionDTO == null){
             logger.error("Invalid Username or Password.");
             System.out.println("Invalid Username or Password.");
-            return new ResponseEntity<String>("Invalid Username or Password.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Invalid Username or Password.", HttpStatus.CONFLICT);
         }
         if(!userService.isUserActive(sessionDTO.getUserId())){
             logger.error("Your Hospital registration is on the way for verification.......");
             System.out.println("Your Hospital registration is on the way for verification.......");
-            return new ResponseEntity<String>("Your Hospital registration is on the way for verification.......", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Your Hospital registration is on the way for verification.......", HttpStatus.CONFLICT);
         }
-        return  new ResponseEntity<SessionDTO>(sessionDTO, HttpStatus.OK);
+        return  new ResponseEntity<>(sessionDTO, HttpStatus.OK);
     }
 
     @PostMapping(value = "/logout")
@@ -52,6 +57,19 @@ public class UserController {
         System.out.println(token);
         sessionService.removeSession(token);
         return new ResponseEntity<String>(token, HttpStatus.OK);
+    }
+
+//    @PostMapping(value = "/register")
+//    public ResponseEntity<String> registerNewUser(@RequestBody JwtUser jwtUser){
+//
+//        return new  ResponseEntity<>("", HttpStatus.OK);
+//
+//    }
+    @PostMapping(value = "/user/register")
+    public String registerUser(@RequestBody User user){
+        user.setPassword(CryptoUtil.encrypt(user.getPassword(), user.getUsername()));
+        userService.createUser(user);
+        return "New user created";
     }
 
 }

@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class CryptoUtil {
 
 
-    public static String encrypt(String plainText,String strKey) throws Exception{
+    public static String encrypt(String plainText,String strKey) {
         String strData="";
 
         try {
@@ -21,7 +21,6 @@ public class CryptoUtil {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception(e);
         }
         return strData;
     }

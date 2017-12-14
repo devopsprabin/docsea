@@ -52,7 +52,7 @@ public class HospitalController {
                     " or lisence no. or usernme is already exist."), HttpStatus.CONFLICT);
         }
         hospitalService.registerHospital(hospitalDTO, userDTO);
-        return new ResponseEntity<HospitalDTO> (hospitalDTO, HttpStatus.OK);
+        return new ResponseEntity<> (" Registration successful", HttpStatus.OK);
     }
 
     //-----------------Updating hospital------------------

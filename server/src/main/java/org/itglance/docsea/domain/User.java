@@ -28,7 +28,7 @@ public class User {
     @OneToOne
     private Status status;
 
-   private int userType;
+    private int userType;
 
     public int getUserType() {
         return userType;
