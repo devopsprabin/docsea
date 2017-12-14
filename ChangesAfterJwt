@@ -1,0 +1,5 @@
+1. Login url: "/jwt/login" -> returns a JwtToken object
+
+2. Prefix for token: "Bearer ".
+
+3. Urls containing "/**/secured/**" require authentication.
